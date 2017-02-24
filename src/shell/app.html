@@ -1,0 +1,16 @@
+<template>
+    <require from="material-design-lite/material.min.css"></require>
+    <require from="./app.css"></require>
+
+    <div class="mdl-layout mdl-js-layout">
+
+        <au-header router.bind="router"></au-header>
+        <au-drawer router.bind="router"></au-drawer>
+
+        <main class="mdl-layout__content mdl-color--grey-200">
+            <router-view swap-order="after"></router-view>
+        </main>
+
+        <au-footer router.bind="router"></au-footer>
+    </div>
+</template>

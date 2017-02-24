@@ -1,0 +1,19 @@
+<template>
+    <require from="./au-header.css"></require>
+
+    <header class="au-header mdl-layout__header mdl-layout__header--scroll">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">
+                <a route-href="route: home" class="au-title mdl-color-text--grey-100">
+                    <i class="material-icons">home</i>
+                    <span>${ router.title }</span>
+                </a>
+            </span>
+            <div class="mdl-layout-spacer"></div>
+
+            <nav class="mdl-navigation mdl-layout--large-screen-only">
+                <a class="mdl-navigation__link" route-href="route: users">Github Users</a>
+            </nav>
+        </div>
+    </header>
+</template>

@@ -1,0 +1,18 @@
+/*.welcome-card {
+    margin-top: 50px;
+}*/
+.spacer {
+    margin: 25px 0;
+}
+
+.welcome-card .mdl-card__title-text {
+    text-align: center;
+}
+
+.welcome-card .mdl-card__actions {
+    display: flex;
+}
+
+.welcome-card button[type="submit"] {
+    flex: 1;
+}

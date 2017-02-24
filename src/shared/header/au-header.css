@@ -1,0 +1,21 @@
+.au-header .au-title {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.au-title span {
+    padding-left: 6px;
+}
+
+.au-header .mdl-navigation__link {
+    padding: 0 12px;
+    text-transform: uppercase;
+    transition: box-shadow 0.4s cubic-bezier(.25, .8, .25, 1), background-color 0.4s cubic-bezier(.25, .8, .25, 1);
+}
+
+.au-header .mdl-navigation__link:hover,
+.au-header .mdl-navigation__link.is-active {
+    background: rgba(232, 232, 232, .1);
+    border-bottom: 1px solid #f5f5f5;
+}
