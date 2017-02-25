@@ -797,6 +797,58 @@ var App = exports.App = function () {
     return App;
 }();
 });
+___scope___.file("users/_users.js", function(exports, require, module, __filename, __dirname){ 
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Users = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+require('whatwg-fetch');
+
+var _aureliaFramework = require('aurelia-framework');
+
+var _aureliaFetchClient = require('aurelia-fetch-client');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Users = exports.Users = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
+    function Users(http) {
+        _classCallCheck(this, Users);
+
+        this.heading = 'Github Users';
+        this.users = [];
+        this.isBusy = false;
+
+        http.configure(function (config) {
+            config.useStandardConfiguration().withBaseUrl('https://api.github.com/');
+        });
+
+        this.http = http;
+    }
+
+    _createClass(Users, [{
+        key: 'activate',
+        value: function activate() {
+            var _this = this;
+
+            this.http.fetch('users').then(function (response) {
+                return response.json();
+            }).then(function (users) {
+                return _this.users = users;
+            });
+        }
+    }]);
+
+    return Users;
+}()) || _class);
+});
 ___scope___.file("users/card/user-card.css", function(exports, require, module, __filename, __dirname){ 
 
 module.exports = ".user-card .avatar {\n    width: 100%;\n    vertical-align: middle;\n}\n"
@@ -896,58 +948,6 @@ function configure(aureliaConfig) {
 ___scope___.file("users/users.html", function(exports, require, module, __filename, __dirname){ 
 
 module.exports.default =  "<template>\n    <require from=\"./card/user-card\"></require>\n\n    <div if.bind=\"isBusy\" class=\"wait-indicator\">\n        <div class=\"mdl-spinner mdl-js-spinner is-active\"></div>\n        <p>Loading...</p>\n    </div>\n\n    <section if.bind=\"!isBusy\" class=\"container mdl-grid au-animate\">\n        <user-card class=\"mdl-cell\" repeat.for=\"user of users\" user.bind=\"user\"></user-card>\n    </section>\n\n    <!--<section class=\"au-animate\">\n    <h2>${heading}</h2>\n    <div class=\"row au-stagger\">\n      <div class=\"col-sm-6 col-md-3 card-container au-animate\" repeat.for=\"user of users\">\n        <div class=\"card\">\n          <canvas class=\"header-bg\" width=\"250\" height=\"70\" blur-image.bind=\"image\"></canvas>\n          <div class=\"avatar\">\n            <img src.bind=\"user.avatar_url\" crossorigin ref=\"image\"/>\n          </div>\n          <div class=\"content\">\n            <p class=\"name\">${user.login}</p>\n            <p><a target=\"_blank\" class=\"btn btn-default\" href.bind=\"user.html_url\">Contact</a></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>-->\n</template>\n"
-});
-___scope___.file("users/users.js", function(exports, require, module, __filename, __dirname){ 
-/* fuse:injection: */ var http = require("http");
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.Users = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _class;
-
-require('whatwg-fetch');
-
-var _aureliaFramework = require('aurelia-framework');
-
-var _aureliaFetchClient = require('aurelia-fetch-client');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Users = exports.Users = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
-    function Users(http) {
-        _classCallCheck(this, Users);
-
-        this.heading = 'Github Users';
-        this.users = [];
-        this.isBusy = false;
-
-        http.configure(function (config) {
-            config.useStandardConfiguration().withBaseUrl('https://api.github.com/');
-        });
-
-        this.http = http;
-    }
-
-    _createClass(Users, [{
-        key: 'activate',
-        value: function activate() {
-            var _this = this;
-
-            this.http.fetch('users').then(function (response) {
-                return response.json();
-            }).then(function (users) {
-                return _this.users = users;
-            });
-        }
-    }]);
-
-    return Users;
-}()) || _class);
 });
 });
 FuseBox.pkg("fusebox-hot-reload", {}, function(___scope___){
@@ -18886,17 +18886,6 @@ function thrower(x) {
 });
 return ___scope___.entry = "dist/commonjs/aurelia-fetch-client.js";
 });
-FuseBox.pkg("http", {}, function(___scope___){
-___scope___.file("index.js", function(exports, require, module, __filename, __dirname){ 
-
-if (FuseBox.isServer) {
-    module.exports = global.require("http");
-} else {
-    module.exports = {}
-}
-});
-return ___scope___.entry = "index.js";
-});
 FuseBox.pkg("aurelia-pal-browser", {}, function(___scope___){
 ___scope___.file("dist/commonjs/aurelia-pal-browser.js", function(exports, require, module, __filename, __dirname){ 
 
@@ -23104,7 +23093,7 @@ var TemplatingRouteLoader = exports.TemplatingRouteLoader = (_dec = (0, _aurelia
 }(_aureliaRouter.RouteLoader)) || _class);
 });
 ___scope___.file("dist/commonjs/router-view.js", function(exports, require, module, __filename, __dirname){ 
-/* fuse:injection: */ var process = require("process");
+
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
