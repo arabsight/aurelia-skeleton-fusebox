@@ -1,26 +1,20 @@
-import 'whatwg-fetch';
 import { inject } from 'aurelia-framework';
-import { HttpClient } from 'aurelia-fetch-client';
+import { DataService } from '../shared/data.service';
 
-@inject(HttpClient)
+@inject(DataService)
 export class Users {
+
     heading = 'Github Users';
     users = [];
     isBusy = false;
 
-    constructor(http) {
-        http.configure(config => {
-            config
-                .useStandardConfiguration()
-                .withBaseUrl('https://api.github.com/');
-        });
-
-        this.http = http;
+    constructor(dataService) {
+        this.dataService = dataService;
     }
 
-    activate() {
-        this.http.fetch('users')
-            .then(response => response.json())
+    activate(params) {
+        this.dataService
+            .getUsers(params.org)
             .then(users => this.users = users);
     }
 }

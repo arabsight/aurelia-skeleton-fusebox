@@ -1,18 +1,19 @@
-const fb = require('fuse-box');
-const FuseBox = fb.FuseBox;
+const { FuseBox, RawPlugin, HTMLPlugin, BabelPlugin } = require('fusebox');
 
 let fuse = FuseBox.init({
     homeDir: "./src",
     outFile: "./dist/bundle.js",
     cache: false,
+    log: true,
+    debug: true,
     sourceMap: {
         bundleReference: 'bundle.js.map',
         outFile: './dist/bundle.js.map',
     },
     plugins: [
-        [/\.css$/, fb.RawPlugin({ extensions: ['.css'] })],
-        fb.HTMLPlugin({ useDefault: true }),
-        fb.BabelPlugin()
+        [/\.css$/, RawPlugin({ extensions: ['.css'] })],
+        HTMLPlugin({ useDefault: true }),
+        BabelPlugin()
     ]
 });
 

@@ -23,41 +23,6 @@ function configure(aurelia) {
     });
 }
 });
-___scope___.file("child-router.html", function(exports, require, module, __filename, __dirname){ 
-
-module.exports.default =  "<template>\n  <section class=\"au-animate\">\n    <h2>${heading}</h2>\n    <div>\n      <div class=\"col-md-2\">\n        <ul class=\"well nav nav-pills nav-stacked\">\n          <li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\">\n            <a href.bind=\"row.href\">${row.title}</a>\n          </li>\n        </ul>\n      </div>\n      <div class=\"col-md-10\" style=\"padding: 0\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </section>\n</template>\n"
-});
-___scope___.file("child-router.js", function(exports, require, module, __filename, __dirname){ 
-
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ChildRouter = exports.ChildRouter = function () {
-  function ChildRouter() {
-    _classCallCheck(this, ChildRouter);
-
-    this.heading = 'Child Router';
-  }
-
-  _createClass(ChildRouter, [{
-    key: 'configureRouter',
-    value: function configureRouter(config, router) {
-      config.map([{ route: ['', 'welcome'], name: 'welcome', moduleId: 'welcome', nav: true, title: 'Welcome' }, { route: 'users', name: 'users', moduleId: 'users', nav: true, title: 'Github Users' }, { route: 'child-router', name: 'child-router', moduleId: 'child-router', nav: true, title: 'Child Router' }]);
-
-      this.router = router;
-    }
-  }]);
-
-  return ChildRouter;
-}();
-});
 ___scope___.file("home/index.js", function(exports, require, module, __filename, __dirname){ 
 
 'use strict';
@@ -79,13 +44,169 @@ function configure(aureliaConfig) {
     });
 }
 });
+___scope___.file("home/team-card/team.css", function(exports, require, module, __filename, __dirname){ 
+
+module.exports = ".info-card .mdl-card__actions {\n    display: flex;\n}\n\n.info-card a.mdl-button, .info-card .divider {\n    flex: 1;\n}\n"
+});
+___scope___.file("home/team-card/team.html", function(exports, require, module, __filename, __dirname){ 
+
+module.exports.default =  "<template>\n    <require from=\"./team.css\"></require>\n\n    <div class=\"info-card mdl-card mdl-cell mdl-shadow--6dp\">\n            <div class=\"mdl-card__title mdl-card--border\">\n                <h2 class=\"mdl-card__title-text\">${ title }</h2>\n            </div>\n\n            <div class=\"mdl-card__supporting-text\">\n                <div class=\"mdl-list\">\n                    <div class=\"mdl-list__item\" repeat.for=\"user of users | limit:3\">\n                        <span class=\"mdl-list__item-primary-content\">\n                            <i class=\"material-icons mdl-list__item-avatar\">person</i>\n                            <span>${ user.login }</span>\n                        </span>\n                        <a class=\"mdl-list__item-secondary-action\" href=\"${user.html_url}\">\n                            <i class=\"material-icons\">info</i>\n                        </a>\n                    </div>\n                </div>\n            </div>\n\n            <div class=\"mdl-card__actions mdl-card--border\">\n                <a class=\"mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent\" route-href=\"route: users; params.bind: { org: 'aurelia' }\">\n                    <i class=\"material-icons\">send</i>\n                    View All\n                </a>\n            </div>\n        </div>\n</template>\n"
+});
+___scope___.file("home/team-card/team.js", function(exports, require, module, __filename, __dirname){ 
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.AureliaTeam = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _desc, _value, _class2, _descriptor, _descriptor2;
+
+var _aureliaFramework = require('aurelia-framework');
+
+var _data = require('../../shared/data.service');
+
+function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
+
+var AureliaTeam = exports.AureliaTeam = (_dec = (0, _aureliaFramework.inject)(_data.DataService), _dec2 = (0, _aureliaFramework.containerless)(), _dec3 = (0, _aureliaFramework.customElement)('team-card'), _dec4 = (0, _aureliaFramework.bindable)(), _dec5 = (0, _aureliaFramework.bindable)(), _dec(_class = _dec2(_class = _dec3(_class = (_class2 = function () {
+    function AureliaTeam(dataService) {
+        _classCallCheck(this, AureliaTeam);
+
+        _initDefineProp(this, 'org', _descriptor, this);
+
+        _initDefineProp(this, 'title', _descriptor2, this);
+
+        this.users = null;
+
+        this.dataService = dataService;
+    }
+
+    _createClass(AureliaTeam, [{
+        key: 'attached',
+        value: function attached() {
+            var _this = this;
+
+            this.dataService.getUsers(this.org).then(function (users) {
+                return _this.users = users;
+            });
+        }
+    }]);
+
+    return AureliaTeam;
+}(), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'org', [_dec4], {
+    enumerable: true,
+    initializer: null
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'title', [_dec5], {
+    enumerable: true,
+    initializer: null
+})), _class2)) || _class) || _class) || _class);
+});
+___scope___.file("shared/data.service.js", function(exports, require, module, __filename, __dirname){ 
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.DataService = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+require('whatwg-fetch');
+
+var _aureliaFramework = require('aurelia-framework');
+
+var _aureliaFetchClient = require('aurelia-fetch-client');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DataService = exports.DataService = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
+    function DataService(http) {
+        _classCallCheck(this, DataService);
+
+        http.configure(function (config) {
+            config.useStandardConfiguration().withBaseUrl('https://api.github.com/');
+        });
+
+        this.http = http;
+    }
+
+    _createClass(DataService, [{
+        key: 'getUsers',
+        value: function getUsers(org) {
+            var path = org ? 'orgs/' + org + '/members' : 'users';
+
+            return this.http.fetch(path).then(function (response) {
+                return response.json();
+            });
+        }
+
+        // getMembers(org) {
+        //     return this.http
+        //         .fetch(`orgs/${org}/members`)
+        //         .then(response => response.json());
+        // }
+
+    }]);
+
+    return DataService;
+}()) || _class);
+});
 ___scope___.file("home/welcome.css", function(exports, require, module, __filename, __dirname){ 
 
-module.exports = "/*.welcome-card {\n    margin-top: 50px;\n}*/\n.spacer {\n    margin: 25px 0;\n}\n\n.welcome-card .mdl-card__title-text {\n    text-align: center;\n}\n\n.welcome-card .mdl-card__actions {\n    display: flex;\n}\n\n.welcome-card button[type=\"submit\"] {\n    flex: 1;\n}\n"
+module.exports = ".spacer {\n    margin: 25px 0;\n}\n\n.welcome-card .mdl-card__actions {\n    display: flex;\n}\n\n.welcome-card button, .welcome-card .divider {\n    flex: 1;\n}\n"
 });
 ___scope___.file("home/welcome.html", function(exports, require, module, __filename, __dirname){ 
 
-module.exports.default =  "<template>\n    <require from=\"./welcome.css\"></require>\n\n    <div class=\"spacer\"></div>\n\n    <section class=\"container mdl-grid au-animate\">\n        <div class=\"welcome-card mdl-card mdl-cell mdl-shadow--6dp\">\n            <div class=\"mdl-card__title mdl-card--border\">\n                <h2 class=\"mdl-card__title-text\">${heading}</h2>\n            </div>\n\n            <form role=\"form\" submit.delegate=\"submit()\">\n                <div class=\"mdl-card__supporting-text\">\n                    <div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\">\n                        <input class=\"mdl-textfield__input\" type=\"text\" id=\"fn\" value.bind=\"firstName\">\n                        <label class=\"mdl-textfield__label\" for=\"fn\">first name</label>\n                    </div>\n\n                    <div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\">\n                        <input class=\"mdl-textfield__input\" type=\"text\" id=\"ln\" value.bind=\"lastName\">\n                        <label class=\"mdl-textfield__label\" for=\"ln\">first name</label>\n                    </div>\n\n                    <p class=\"help-block\"><label>Full Name:</label> ${fullName | upper}</p>\n                </div>\n\n                <div class=\"mdl-card__actions mdl-card--border\">\n                    <button type=\"submit\" class=\"mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent\">\n                        <i class=\"material-icons\">send</i>\n                        Submit\n                    </button>\n                </div>\n            </form>\n        </div>\n\n        <div class=\"info-card mdl-card mdl-cell\">\n            <div class=\"mdl-card__title mdl-card--border\">\n                <h2 class=\"mdl-card__title-text\">Aurelia Team</h2>\n            </div>\n\n            <div class=\"mdl-card__supporting-text\">\n                <div class=\"mdl-list\">\n                    <div class=\"mdl-list__item\">\n                        <span class=\"mdl-list__item-primary-content\">\n                        <i class=\"material-icons mdl-list__item-avatar\">person</i>\n                        <span>TODO</span>\n                        </span>\n                        <a class=\"mdl-list__item-secondary-action\" href=\"#\"><i class=\"material-icons\">star</i></a>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"info-card mdl-card mdl-cell\">\n            <div class=\"mdl-card__title mdl-card--border\">\n                <h2 class=\"mdl-card__title-text\">FuseBox Team</h2>\n            </div>\n\n            <div class=\"mdl-card__supporting-text\">\n                <div class=\"mdl-list\">\n                    <div class=\"mdl-list__item\">\n                        <span class=\"mdl-list__item-primary-content\">\n                        <i class=\"material-icons mdl-list__item-avatar\">person</i>\n                        <span>TODO</span>\n                        </span>\n                        <a class=\"mdl-list__item-secondary-action\" href=\"#\"><i class=\"material-icons\">star</i></a>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </section>\n</template>\n"
+module.exports.default =  "<template>\n    <require from=\"./welcome.css\"></require>\n    <require from=\"./team-card/team\"></require>\n\n    <div class=\"spacer\"></div>\n\n    <section class=\"container mdl-grid au-animate\">\n        <div class=\"welcome-card mdl-card mdl-cell mdl-shadow--6dp\">\n            <div class=\"mdl-card__title mdl-card--border\">\n                <h2 class=\"mdl-card__title-text\">${heading}</h2>\n            </div>\n\n            <div class=\"mdl-card__supporting-text\">\n                <form role=\"form\">\n\n                    <div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\">\n                        <input class=\"mdl-textfield__input\" type=\"text\" id=\"fn\" value.bind=\"firstName\">\n                        <label class=\"mdl-textfield__label\" for=\"fn\">first name</label>\n                    </div>\n\n                    <div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\">\n                        <input class=\"mdl-textfield__input\" type=\"text\" id=\"ln\" value.bind=\"lastName\">\n                        <label class=\"mdl-textfield__label\" for=\"ln\">first name</label>\n                    </div>\n\n                    <p class=\"help-block\"><label>Full Name:</label> ${fullName | upper}</p>\n                </form>\n            </div>\n\n            <div class=\"divider\"></div>\n\n            <div class=\"mdl-card__actions mdl-card--border\">\n                <button class=\"mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent\" click.delegate=\"submit()\">\n                    <i class=\"material-icons\">send</i>\n                    Submit\n                </button>\n            </div>\n        </div>\n\n        <team-card org.one-time=\"'aurelia'\" title.one-time=\"'Aurelia Team'\"></team-card>\n        <!--<team-card org.one-time=\"'fuse-box'\"></team-card>-->\n\n    </section>\n</template>\n"
 });
 ___scope___.file("home/welcome.js", function(exports, require, module, __filename, __dirname){ 
 
@@ -137,7 +258,7 @@ var Welcome = exports.Welcome = (_dec = (0, _aureliaFramework.computedFrom)('fir
     function Welcome() {
         _classCallCheck(this, Welcome);
 
-        this.heading = 'Welcome to the Aurelia Navigation App!';
+        this.heading = 'Aurelia On FuseBox!';
         this.firstName = 'John';
         this.lastName = 'Doe';
         this.previousValue = this.fullName;
@@ -180,347 +301,6 @@ var UpperValueConverter = exports.UpperValueConverter = function () {
 
     return UpperValueConverter;
 }();
-});
-___scope___.file("shared/blur-image.js", function(exports, require, module, __filename, __dirname){ 
-
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.BlurImage = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _dec2, _class;
-
-var _aureliaFramework = require('aurelia-framework');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var BlurImage = exports.BlurImage = (_dec = (0, _aureliaFramework.inject)(Element), _dec2 = (0, _aureliaFramework.customElement)('blur-image'), _dec(_class = _dec2(_class = function () {
-    function BlurImage(element) {
-        _classCallCheck(this, BlurImage);
-
-        this.element = element;
-    }
-
-    _createClass(BlurImage, [{
-        key: 'valueChanged',
-        value: function valueChanged(newImage) {
-            var _this = this;
-
-            if (newImage.complete) {
-                drawBlur(this.element, newImage);
-            } else {
-                newImage.onload = function () {
-                    return drawBlur(_this.element, newImage);
-                };
-            }
-        }
-    }]);
-
-    return BlurImage;
-}()) || _class) || _class);
-
-/* eslint-disable */
-
-/*
-This Snippet is using a modified Stack Blur js lib for blurring the header images.
-*/
-
-/*
-
-StackBlur - a fast almost Gaussian Blur For Canvas
-
-Version:     0.5
-Author:		Mario Klingemann
-Contact: 	mario@quasimondo.com
-Website:	http://www.quasimondo.com/StackBlurForCanvas
-Twitter:	@quasimondo
-
-In case you find this class useful - especially in commercial projects -
-I am not totally unhappy for a small donation to my PayPal account
-mario@quasimondo.de
-
-Or support me on flattr:
-https://flattr.com/thing/72791/StackBlur-a-fast-almost-Gaussian-Blur-Effect-for-CanvasJavascript
-
-Copyright (c) 2010 Mario Klingemann
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-*/
-
-var mul_table = [512, 512, 456, 512, 328, 456, 335, 512, 405, 328, 271, 456, 388, 335, 292, 512, 454, 405, 364, 328, 298, 271, 496, 456, 420, 388, 360, 335, 312, 292, 273, 512, 482, 454, 428, 405, 383, 364, 345, 328, 312, 298, 284, 271, 259, 496, 475, 456, 437, 420, 404, 388, 374, 360, 347, 335, 323, 312, 302, 292, 282, 273, 265, 512, 497, 482, 468, 454, 441, 428, 417, 405, 394, 383, 373, 364, 354, 345, 337, 328, 320, 312, 305, 298, 291, 284, 278, 271, 265, 259, 507, 496, 485, 475, 465, 456, 446, 437, 428, 420, 412, 404, 396, 388, 381, 374, 367, 360, 354, 347, 341, 335, 329, 323, 318, 312, 307, 302, 297, 292, 287, 282, 278, 273, 269, 265, 261, 512, 505, 497, 489, 482, 475, 468, 461, 454, 447, 441, 435, 428, 422, 417, 411, 405, 399, 394, 389, 383, 378, 373, 368, 364, 359, 354, 350, 345, 341, 337, 332, 328, 324, 320, 316, 312, 309, 305, 301, 298, 294, 291, 287, 284, 281, 278, 274, 271, 268, 265, 262, 259, 257, 507, 501, 496, 491, 485, 480, 475, 470, 465, 460, 456, 451, 446, 442, 437, 433, 428, 424, 420, 416, 412, 408, 404, 400, 396, 392, 388, 385, 381, 377, 374, 370, 367, 363, 360, 357, 354, 350, 347, 344, 341, 338, 335, 332, 329, 326, 323, 320, 318, 315, 312, 310, 307, 304, 302, 299, 297, 294, 292, 289, 287, 285, 282, 280, 278, 275, 273, 271, 269, 267, 265, 263, 261, 259];
-
-var shg_table = [9, 11, 12, 13, 13, 14, 14, 15, 15, 15, 15, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18, 18, 18, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24];
-
-var BLUR_RADIUS = 40;
-
-function stackBlurCanvasRGBA(canvas, top_x, top_y, width, height, radius) {
-    if (isNaN(radius) || radius < 1) return;
-    radius |= 0;
-
-    var context = canvas.getContext("2d");
-    var imageData;
-
-    try {
-        imageData = context.getImageData(top_x, top_y, width, height);
-    } catch (e) {
-        throw new Error("unable to access image data: " + e);
-    }
-
-    var pixels = imageData.data;
-
-    var x, y, i, p, yp, yi, yw, r_sum, g_sum, b_sum, a_sum, r_out_sum, g_out_sum, b_out_sum, a_out_sum, r_in_sum, g_in_sum, b_in_sum, a_in_sum, pr, pg, pb, pa, rbs;
-
-    var div = radius + radius + 1;
-    var w4 = width << 2;
-    var widthMinus1 = width - 1;
-    var heightMinus1 = height - 1;
-    var radiusPlus1 = radius + 1;
-    var sumFactor = radiusPlus1 * (radiusPlus1 + 1) / 2;
-
-    var stackStart = new BlurStack();
-    var stack = stackStart;
-    for (i = 1; i < div; i++) {
-        stack = stack.next = new BlurStack();
-        if (i == radiusPlus1) var stackEnd = stack;
-    }
-    stack.next = stackStart;
-    var stackIn = null;
-    var stackOut = null;
-
-    yw = yi = 0;
-
-    var mul_sum = mul_table[radius];
-    var shg_sum = shg_table[radius];
-
-    for (y = 0; y < height; y++) {
-        r_in_sum = g_in_sum = b_in_sum = a_in_sum = r_sum = g_sum = b_sum = a_sum = 0;
-
-        r_out_sum = radiusPlus1 * (pr = pixels[yi]);
-        g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
-        b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
-        a_out_sum = radiusPlus1 * (pa = pixels[yi + 3]);
-
-        r_sum += sumFactor * pr;
-        g_sum += sumFactor * pg;
-        b_sum += sumFactor * pb;
-        a_sum += sumFactor * pa;
-
-        stack = stackStart;
-
-        for (i = 0; i < radiusPlus1; i++) {
-            stack.r = pr;
-            stack.g = pg;
-            stack.b = pb;
-            stack.a = pa;
-            stack = stack.next;
-        }
-
-        for (i = 1; i < radiusPlus1; i++) {
-            p = yi + ((widthMinus1 < i ? widthMinus1 : i) << 2);
-            r_sum += (stack.r = pr = pixels[p]) * (rbs = radiusPlus1 - i);
-            g_sum += (stack.g = pg = pixels[p + 1]) * rbs;
-            b_sum += (stack.b = pb = pixels[p + 2]) * rbs;
-            a_sum += (stack.a = pa = pixels[p + 3]) * rbs;
-
-            r_in_sum += pr;
-            g_in_sum += pg;
-            b_in_sum += pb;
-            a_in_sum += pa;
-
-            stack = stack.next;
-        }
-
-        stackIn = stackStart;
-        stackOut = stackEnd;
-        for (x = 0; x < width; x++) {
-            pixels[yi + 3] = pa = a_sum * mul_sum >> shg_sum;
-            if (pa != 0) {
-                pa = 255 / pa;
-                pixels[yi] = (r_sum * mul_sum >> shg_sum) * pa;
-                pixels[yi + 1] = (g_sum * mul_sum >> shg_sum) * pa;
-                pixels[yi + 2] = (b_sum * mul_sum >> shg_sum) * pa;
-            } else {
-                pixels[yi] = pixels[yi + 1] = pixels[yi + 2] = 0;
-            }
-
-            r_sum -= r_out_sum;
-            g_sum -= g_out_sum;
-            b_sum -= b_out_sum;
-            a_sum -= a_out_sum;
-
-            r_out_sum -= stackIn.r;
-            g_out_sum -= stackIn.g;
-            b_out_sum -= stackIn.b;
-            a_out_sum -= stackIn.a;
-
-            p = yw + ((p = x + radius + 1) < widthMinus1 ? p : widthMinus1) << 2;
-
-            r_in_sum += stackIn.r = pixels[p];
-            g_in_sum += stackIn.g = pixels[p + 1];
-            b_in_sum += stackIn.b = pixels[p + 2];
-            a_in_sum += stackIn.a = pixels[p + 3];
-
-            r_sum += r_in_sum;
-            g_sum += g_in_sum;
-            b_sum += b_in_sum;
-            a_sum += a_in_sum;
-
-            stackIn = stackIn.next;
-
-            r_out_sum += pr = stackOut.r;
-            g_out_sum += pg = stackOut.g;
-            b_out_sum += pb = stackOut.b;
-            a_out_sum += pa = stackOut.a;
-
-            r_in_sum -= pr;
-            g_in_sum -= pg;
-            b_in_sum -= pb;
-            a_in_sum -= pa;
-
-            stackOut = stackOut.next;
-
-            yi += 4;
-        }
-        yw += width;
-    }
-
-    for (x = 0; x < width; x++) {
-        g_in_sum = b_in_sum = a_in_sum = r_in_sum = g_sum = b_sum = a_sum = r_sum = 0;
-
-        yi = x << 2;
-        r_out_sum = radiusPlus1 * (pr = pixels[yi]);
-        g_out_sum = radiusPlus1 * (pg = pixels[yi + 1]);
-        b_out_sum = radiusPlus1 * (pb = pixels[yi + 2]);
-        a_out_sum = radiusPlus1 * (pa = pixels[yi + 3]);
-
-        r_sum += sumFactor * pr;
-        g_sum += sumFactor * pg;
-        b_sum += sumFactor * pb;
-        a_sum += sumFactor * pa;
-
-        stack = stackStart;
-
-        for (i = 0; i < radiusPlus1; i++) {
-            stack.r = pr;
-            stack.g = pg;
-            stack.b = pb;
-            stack.a = pa;
-            stack = stack.next;
-        }
-
-        yp = width;
-
-        for (i = 1; i <= radius; i++) {
-            yi = yp + x << 2;
-
-            r_sum += (stack.r = pr = pixels[yi]) * (rbs = radiusPlus1 - i);
-            g_sum += (stack.g = pg = pixels[yi + 1]) * rbs;
-            b_sum += (stack.b = pb = pixels[yi + 2]) * rbs;
-            a_sum += (stack.a = pa = pixels[yi + 3]) * rbs;
-
-            r_in_sum += pr;
-            g_in_sum += pg;
-            b_in_sum += pb;
-            a_in_sum += pa;
-
-            stack = stack.next;
-
-            if (i < heightMinus1) {
-                yp += width;
-            }
-        }
-
-        yi = x;
-        stackIn = stackStart;
-        stackOut = stackEnd;
-        for (y = 0; y < height; y++) {
-            p = yi << 2;
-            pixels[p + 3] = pa = a_sum * mul_sum >> shg_sum;
-            if (pa > 0) {
-                pa = 255 / pa;
-                pixels[p] = (r_sum * mul_sum >> shg_sum) * pa;
-                pixels[p + 1] = (g_sum * mul_sum >> shg_sum) * pa;
-                pixels[p + 2] = (b_sum * mul_sum >> shg_sum) * pa;
-            } else {
-                pixels[p] = pixels[p + 1] = pixels[p + 2] = 0;
-            }
-
-            r_sum -= r_out_sum;
-            g_sum -= g_out_sum;
-            b_sum -= b_out_sum;
-            a_sum -= a_out_sum;
-
-            r_out_sum -= stackIn.r;
-            g_out_sum -= stackIn.g;
-            b_out_sum -= stackIn.b;
-            a_out_sum -= stackIn.a;
-
-            p = x + ((p = y + radiusPlus1) < heightMinus1 ? p : heightMinus1) * width << 2;
-
-            r_sum += r_in_sum += stackIn.r = pixels[p];
-            g_sum += g_in_sum += stackIn.g = pixels[p + 1];
-            b_sum += b_in_sum += stackIn.b = pixels[p + 2];
-            a_sum += a_in_sum += stackIn.a = pixels[p + 3];
-
-            stackIn = stackIn.next;
-
-            r_out_sum += pr = stackOut.r;
-            g_out_sum += pg = stackOut.g;
-            b_out_sum += pb = stackOut.b;
-            a_out_sum += pa = stackOut.a;
-
-            r_in_sum -= pr;
-            g_in_sum -= pg;
-            b_in_sum -= pb;
-            a_in_sum -= pa;
-
-            stackOut = stackOut.next;
-
-            yi += width;
-        }
-    }
-
-    context.putImageData(imageData, top_x, top_y);
-}
-
-function BlurStack() {
-    this.r = 0;
-    this.g = 0;
-    this.b = 0;
-    this.a = 0;
-    this.next = null;
-}
-
-function drawBlur(canvas, image) {
-    var w = canvas.width;
-    var h = canvas.height;
-    var canvasContext = canvas.getContext('2d');
-    canvasContext.drawImage(image, 0, 0, w, h);
-    stackBlurCanvasRGBA(canvas, 0, 0, w, h, BLUR_RADIUS);
-};
 });
 ___scope___.file("shared/drawer/au-drawer.html", function(exports, require, module, __filename, __dirname){ 
 
@@ -748,12 +528,35 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.configure = configure;
 function configure(config) {
-    config.globalResources(['./header/au-header', './drawer/au-drawer', './footer/au-footer']);
+    config.globalResources(['./header/au-header', './drawer/au-drawer', './footer/au-footer', './limit.vc']);
 }
 });
-___scope___.file("shared/nav-bar.html", function(exports, require, module, __filename, __dirname){ 
+___scope___.file("shared/limit.vc.js", function(exports, require, module, __filename, __dirname){ 
 
-module.exports.default =  "<template bindable=\"router\">\n  <nav class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\">\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#skeleton-navigation-navbar-collapse\">\n        <span class=\"sr-only\">Toggle Navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">\n        <i class=\"fa fa-home\"></i>\n        <span>${router.title}</span>\n      </a>\n    </div>\n\n    <div class=\"collapse navbar-collapse\" id=\"skeleton-navigation-navbar-collapse\">\n      <ul class=\"nav navbar-nav\">\n        <li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\">\n          <a data-toggle=\"collapse\" data-target=\"#skeleton-navigation-navbar-collapse.in\" href.bind=\"row.href\">${row.title}</a>\n        </li>\n      </ul>\n\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li class=\"loader\" if.bind=\"router.isNavigating\">\n          <i class=\"fa fa-spinner fa-spin fa-2x\"></i>\n        </li>\n      </ul>\n    </div>\n  </nav>\n</template>\n"
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var LimitValueConverter = exports.LimitValueConverter = function () {
+    function LimitValueConverter() {
+        _classCallCheck(this, LimitValueConverter);
+    }
+
+    _createClass(LimitValueConverter, [{
+        key: "toView",
+        value: function toView(value, max) {
+            return value && value.slice(0, max);
+        }
+    }]);
+
+    return LimitValueConverter;
+}();
 });
 ___scope___.file("shell/app.css", function(exports, require, module, __filename, __dirname){ 
 
@@ -796,58 +599,6 @@ var App = exports.App = function () {
 
     return App;
 }();
-});
-___scope___.file("users/_users.js", function(exports, require, module, __filename, __dirname){ 
-
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.Users = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _class;
-
-require('whatwg-fetch');
-
-var _aureliaFramework = require('aurelia-framework');
-
-var _aureliaFetchClient = require('aurelia-fetch-client');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Users = exports.Users = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
-    function Users(http) {
-        _classCallCheck(this, Users);
-
-        this.heading = 'Github Users';
-        this.users = [];
-        this.isBusy = false;
-
-        http.configure(function (config) {
-            config.useStandardConfiguration().withBaseUrl('https://api.github.com/');
-        });
-
-        this.http = http;
-    }
-
-    _createClass(Users, [{
-        key: 'activate',
-        value: function activate() {
-            var _this = this;
-
-            this.http.fetch('users').then(function (response) {
-                return response.json();
-            }).then(function (users) {
-                return _this.users = users;
-            });
-        }
-    }]);
-
-    return Users;
-}()) || _class);
 });
 ___scope___.file("users/card/user-card.css", function(exports, require, module, __filename, __dirname){ 
 
@@ -948,6 +699,50 @@ function configure(aureliaConfig) {
 ___scope___.file("users/users.html", function(exports, require, module, __filename, __dirname){ 
 
 module.exports.default =  "<template>\n    <require from=\"./card/user-card\"></require>\n\n    <div if.bind=\"isBusy\" class=\"wait-indicator\">\n        <div class=\"mdl-spinner mdl-js-spinner is-active\"></div>\n        <p>Loading...</p>\n    </div>\n\n    <section if.bind=\"!isBusy\" class=\"container mdl-grid au-animate\">\n        <user-card class=\"mdl-cell\" repeat.for=\"user of users\" user.bind=\"user\"></user-card>\n    </section>\n\n    <!--<section class=\"au-animate\">\n    <h2>${heading}</h2>\n    <div class=\"row au-stagger\">\n      <div class=\"col-sm-6 col-md-3 card-container au-animate\" repeat.for=\"user of users\">\n        <div class=\"card\">\n          <canvas class=\"header-bg\" width=\"250\" height=\"70\" blur-image.bind=\"image\"></canvas>\n          <div class=\"avatar\">\n            <img src.bind=\"user.avatar_url\" crossorigin ref=\"image\"/>\n          </div>\n          <div class=\"content\">\n            <p class=\"name\">${user.login}</p>\n            <p><a target=\"_blank\" class=\"btn btn-default\" href.bind=\"user.html_url\">Contact</a></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>-->\n</template>\n"
+});
+___scope___.file("users/users.js", function(exports, require, module, __filename, __dirname){ 
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Users = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+var _aureliaFramework = require('aurelia-framework');
+
+var _data = require('../shared/data.service');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Users = exports.Users = (_dec = (0, _aureliaFramework.inject)(_data.DataService), _dec(_class = function () {
+    function Users(dataService) {
+        _classCallCheck(this, Users);
+
+        this.heading = 'Github Users';
+        this.users = [];
+        this.isBusy = false;
+
+        this.dataService = dataService;
+    }
+
+    _createClass(Users, [{
+        key: 'activate',
+        value: function activate(params) {
+            var _this = this;
+
+            this.dataService.getUsers(params.org).then(function (users) {
+                return _this.users = users;
+            });
+        }
+    }]);
+
+    return Users;
+}()) || _class);
 });
 });
 FuseBox.pkg("fusebox-hot-reload", {}, function(___scope___){
@@ -4891,8 +4686,7 @@ function findDeactivatable(plan, callbackName) {
 
     if (_viewPortPlan.childNavigationInstruction) {
       findDeactivatable(_viewPortPlan.childNavigationInstruction.plan, callbackName, list);
-    }
-    if (prevComponent) {
+    } else if (prevComponent) {
       addPreviousDeactivatable(prevComponent, callbackName, list);
     }
   }
@@ -7290,14 +7084,12 @@ var Aurelia = exports.Aurelia = function () {
   Aurelia.prototype.start = function start() {
     var _this = this;
 
-    if (this.started) {
-      return Promise.resolve(this);
+    if (this._started) {
+      return this._started;
     }
 
-    this.started = true;
     this.logger.info('Aurelia Starting');
-
-    return this.use.apply().then(function () {
+    return this._started = this.use.apply().then(function () {
       preventActionlessFormSubmit();
 
       if (!_this.container.hasResolver(_aureliaTemplating.BindingLanguage)) {
@@ -7562,12 +7354,13 @@ var FrameworkConfiguration = function () {
     return this;
   };
 
-  FrameworkConfiguration.prototype.feature = function feature(plugin, config) {
-    if (getExt(plugin)) {
-      return this.plugin({ moduleId: plugin, resourcesRelativeTo: [plugin, ''], config: config || {} });
-    }
+  FrameworkConfiguration.prototype.feature = function feature(plugin) {
+    var config = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-    return this.plugin({ moduleId: plugin + '/index', resourcesRelativeTo: [plugin, ''], config: config || {} });
+    var hasIndex = /\/index$/i.test(plugin);
+    var moduleId = hasIndex || getExt(plugin) ? plugin : plugin + '/index';
+    var root = hasIndex ? plugin.substr(0, plugin.length - 6) : plugin;
+    return this.plugin({ moduleId: moduleId, resourcesRelativeTo: [root, ''], config: config });
   };
 
   FrameworkConfiguration.prototype.globalResources = function globalResources(resources) {
@@ -7723,7 +7516,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _dec2, _class, _dec3, _class2, _dec4, _class3, _dec5, _class5, _dec6, _class7, _dec7, _class8, _dec8, _class9, _dec9, _class10, _class11, _temp, _dec10, _class12, _class13, _temp2;
+var _dec, _dec2, _class, _dec3, _class2, _dec4, _class3, _dec5, _class5, _dec6, _class7, _dec7, _class8, _dec8, _class9, _dec9, _class10, _class12, _temp, _dec10, _class13, _class14, _temp2;
 
 exports.camelCase = camelCase;
 exports.createOverrideContext = createOverrideContext;
@@ -8847,7 +8640,7 @@ var Expression = exports.Expression = function () {
   };
 
   Expression.prototype.toString = function toString() {
-    return Unparser.unparse(this);
+    return typeof FEATURE_NO_UNPARSER === 'undefined' ? _Unparser.unparse(this) : Function.prototype.toString.call(this);
   };
 
   return Expression;
@@ -9013,6 +8806,7 @@ var Assign = exports.Assign = function (_Expression4) {
 
     _this6.target = target;
     _this6.value = value;
+    _this6.isAssignable = true;
     return _this6;
   }
 
@@ -9025,6 +8819,11 @@ var Assign = exports.Assign = function (_Expression4) {
   };
 
   Assign.prototype.connect = function connect(binding, scope) {};
+
+  Assign.prototype.assign = function assign(scope, value) {
+    this.value.assign(scope, value);
+    this.target.assign(scope, value);
+  };
 
   return Assign;
 }(Expression);
@@ -9666,199 +9465,204 @@ function setKeyed(obj, key, value) {
   return value;
 }
 
-var Unparser = exports.Unparser = function () {
-  function Unparser(buffer) {
-    
+var _Unparser = null;
 
-    this.buffer = buffer;
-  }
+exports.Unparser = _Unparser;
+if (typeof FEATURE_NO_UNPARSER === 'undefined') {
+  exports.Unparser = _Unparser = function () {
+    function Unparser(buffer) {
+      
 
-  Unparser.unparse = function unparse(expression) {
-    var buffer = [];
-    var visitor = new Unparser(buffer);
-
-    expression.accept(visitor);
-
-    return buffer.join('');
-  };
-
-  Unparser.prototype.write = function write(text) {
-    this.buffer.push(text);
-  };
-
-  Unparser.prototype.writeArgs = function writeArgs(args) {
-    this.write('(');
-
-    for (var _i15 = 0, length = args.length; _i15 < length; ++_i15) {
-      if (_i15 !== 0) {
-        this.write(',');
-      }
-
-      args[_i15].accept(this);
+      this.buffer = buffer;
     }
 
-    this.write(')');
-  };
+    Unparser.unparse = function unparse(expression) {
+      var buffer = [];
+      var visitor = new _Unparser(buffer);
 
-  Unparser.prototype.visitChain = function visitChain(chain) {
-    var expressions = chain.expressions;
+      expression.accept(visitor);
 
-    for (var _i16 = 0, length = expression.length; _i16 < length; ++_i16) {
-      if (_i16 !== 0) {
-        this.write(';');
+      return buffer.join('');
+    };
+
+    Unparser.prototype.write = function write(text) {
+      this.buffer.push(text);
+    };
+
+    Unparser.prototype.writeArgs = function writeArgs(args) {
+      this.write('(');
+
+      for (var _i15 = 0, length = args.length; _i15 < length; ++_i15) {
+        if (_i15 !== 0) {
+          this.write(',');
+        }
+
+        args[_i15].accept(this);
       }
 
-      expressions[_i16].accept(this);
-    }
-  };
+      this.write(')');
+    };
 
-  Unparser.prototype.visitBindingBehavior = function visitBindingBehavior(behavior) {
-    var args = behavior.args;
+    Unparser.prototype.visitChain = function visitChain(chain) {
+      var expressions = chain.expressions;
 
-    behavior.expression.accept(this);
-    this.write('&' + behavior.name);
+      for (var _i16 = 0, length = expression.length; _i16 < length; ++_i16) {
+        if (_i16 !== 0) {
+          this.write(';');
+        }
 
-    for (var _i17 = 0, length = args.length; _i17 < length; ++_i17) {
+        expressions[_i16].accept(this);
+      }
+    };
+
+    Unparser.prototype.visitBindingBehavior = function visitBindingBehavior(behavior) {
+      var args = behavior.args;
+
+      behavior.expression.accept(this);
+      this.write('&' + behavior.name);
+
+      for (var _i17 = 0, length = args.length; _i17 < length; ++_i17) {
+        this.write(':');
+        args[_i17].accept(this);
+      }
+    };
+
+    Unparser.prototype.visitValueConverter = function visitValueConverter(converter) {
+      var args = converter.args;
+
+      converter.expression.accept(this);
+      this.write('|' + converter.name);
+
+      for (var _i18 = 0, length = args.length; _i18 < length; ++_i18) {
+        this.write(':');
+        args[_i18].accept(this);
+      }
+    };
+
+    Unparser.prototype.visitAssign = function visitAssign(assign) {
+      assign.target.accept(this);
+      this.write('=');
+      assign.value.accept(this);
+    };
+
+    Unparser.prototype.visitConditional = function visitConditional(conditional) {
+      conditional.condition.accept(this);
+      this.write('?');
+      conditional.yes.accept(this);
       this.write(':');
-      args[_i17].accept(this);
-    }
-  };
+      conditional.no.accept(this);
+    };
 
-  Unparser.prototype.visitValueConverter = function visitValueConverter(converter) {
-    var args = converter.args;
+    Unparser.prototype.visitAccessThis = function visitAccessThis(access) {
+      if (access.ancestor === 0) {
+        this.write('$this');
+        return;
+      }
+      this.write('$parent');
+      var i = access.ancestor - 1;
+      while (i--) {
+        this.write('.$parent');
+      }
+    };
 
-    converter.expression.accept(this);
-    this.write('|' + converter.name);
+    Unparser.prototype.visitAccessScope = function visitAccessScope(access) {
+      var i = access.ancestor;
+      while (i--) {
+        this.write('$parent.');
+      }
+      this.write(access.name);
+    };
 
-    for (var _i18 = 0, length = args.length; _i18 < length; ++_i18) {
-      this.write(':');
-      args[_i18].accept(this);
-    }
-  };
+    Unparser.prototype.visitAccessMember = function visitAccessMember(access) {
+      access.object.accept(this);
+      this.write('.' + access.name);
+    };
 
-  Unparser.prototype.visitAssign = function visitAssign(assign) {
-    assign.target.accept(this);
-    this.write('=');
-    assign.value.accept(this);
-  };
+    Unparser.prototype.visitAccessKeyed = function visitAccessKeyed(access) {
+      access.object.accept(this);
+      this.write('[');
+      access.key.accept(this);
+      this.write(']');
+    };
 
-  Unparser.prototype.visitConditional = function visitConditional(conditional) {
-    conditional.condition.accept(this);
-    this.write('?');
-    conditional.yes.accept(this);
-    this.write(':');
-    conditional.no.accept(this);
-  };
+    Unparser.prototype.visitCallScope = function visitCallScope(call) {
+      var i = call.ancestor;
+      while (i--) {
+        this.write('$parent.');
+      }
+      this.write(call.name);
+      this.writeArgs(call.args);
+    };
 
-  Unparser.prototype.visitAccessThis = function visitAccessThis(access) {
-    if (access.ancestor === 0) {
-      this.write('$this');
-      return;
-    }
-    this.write('$parent');
-    var i = access.ancestor - 1;
-    while (i--) {
-      this.write('.$parent');
-    }
-  };
+    Unparser.prototype.visitCallFunction = function visitCallFunction(call) {
+      call.func.accept(this);
+      this.writeArgs(call.args);
+    };
 
-  Unparser.prototype.visitAccessScope = function visitAccessScope(access) {
-    var i = access.ancestor;
-    while (i--) {
-      this.write('$parent.');
-    }
-    this.write(access.name);
-  };
+    Unparser.prototype.visitCallMember = function visitCallMember(call) {
+      call.object.accept(this);
+      this.write('.' + call.name);
+      this.writeArgs(call.args);
+    };
 
-  Unparser.prototype.visitAccessMember = function visitAccessMember(access) {
-    access.object.accept(this);
-    this.write('.' + access.name);
-  };
+    Unparser.prototype.visitPrefix = function visitPrefix(prefix) {
+      this.write('(' + prefix.operation);
+      prefix.expression.accept(this);
+      this.write(')');
+    };
 
-  Unparser.prototype.visitAccessKeyed = function visitAccessKeyed(access) {
-    access.object.accept(this);
-    this.write('[');
-    access.key.accept(this);
-    this.write(']');
-  };
+    Unparser.prototype.visitBinary = function visitBinary(binary) {
+      binary.left.accept(this);
+      this.write(binary.operation);
+      binary.right.accept(this);
+    };
 
-  Unparser.prototype.visitCallScope = function visitCallScope(call) {
-    var i = call.ancestor;
-    while (i--) {
-      this.write('$parent.');
-    }
-    this.write(call.name);
-    this.writeArgs(call.args);
-  };
+    Unparser.prototype.visitLiteralPrimitive = function visitLiteralPrimitive(literal) {
+      this.write('' + literal.value);
+    };
 
-  Unparser.prototype.visitCallFunction = function visitCallFunction(call) {
-    call.func.accept(this);
-    this.writeArgs(call.args);
-  };
+    Unparser.prototype.visitLiteralArray = function visitLiteralArray(literal) {
+      var elements = literal.elements;
 
-  Unparser.prototype.visitCallMember = function visitCallMember(call) {
-    call.object.accept(this);
-    this.write('.' + call.name);
-    this.writeArgs(call.args);
-  };
+      this.write('[');
 
-  Unparser.prototype.visitPrefix = function visitPrefix(prefix) {
-    this.write('(' + prefix.operation);
-    prefix.expression.accept(this);
-    this.write(')');
-  };
+      for (var _i19 = 0, length = elements.length; _i19 < length; ++_i19) {
+        if (_i19 !== 0) {
+          this.write(',');
+        }
 
-  Unparser.prototype.visitBinary = function visitBinary(binary) {
-    binary.left.accept(this);
-    this.write(binary.operation);
-    binary.right.accept(this);
-  };
-
-  Unparser.prototype.visitLiteralPrimitive = function visitLiteralPrimitive(literal) {
-    this.write('' + literal.value);
-  };
-
-  Unparser.prototype.visitLiteralArray = function visitLiteralArray(literal) {
-    var elements = literal.elements;
-
-    this.write('[');
-
-    for (var _i19 = 0, length = elements.length; _i19 < length; ++_i19) {
-      if (_i19 !== 0) {
-        this.write(',');
+        elements[_i19].accept(this);
       }
 
-      elements[_i19].accept(this);
-    }
+      this.write(']');
+    };
 
-    this.write(']');
-  };
+    Unparser.prototype.visitLiteralObject = function visitLiteralObject(literal) {
+      var keys = literal.keys;
+      var values = literal.values;
 
-  Unparser.prototype.visitLiteralObject = function visitLiteralObject(literal) {
-    var keys = literal.keys;
-    var values = literal.values;
+      this.write('{');
 
-    this.write('{');
+      for (var _i20 = 0, length = keys.length; _i20 < length; ++_i20) {
+        if (_i20 !== 0) {
+          this.write(',');
+        }
 
-    for (var _i20 = 0, length = keys.length; _i20 < length; ++_i20) {
-      if (_i20 !== 0) {
-        this.write(',');
+        this.write('\'' + keys[_i20] + '\':');
+        values[_i20].accept(this);
       }
 
-      this.write('\'' + keys[_i20] + '\':');
-      values[_i20].accept(this);
-    }
+      this.write('}');
+    };
 
-    this.write('}');
-  };
+    Unparser.prototype.visitLiteralString = function visitLiteralString(literal) {
+      var escaped = literal.value.replace(/'/g, "\'");
+      this.write('\'' + escaped + '\'');
+    };
 
-  Unparser.prototype.visitLiteralString = function visitLiteralString(literal) {
-    var escaped = literal.value.replace(/'/g, "\'");
-    this.write('\'' + escaped + '\'');
-  };
-
-  return Unparser;
-}();
+    return Unparser;
+  }();
+}
 
 var ExpressionCloner = exports.ExpressionCloner = function () {
   function ExpressionCloner() {
@@ -11588,7 +11392,7 @@ var CheckedObserver = exports.CheckedObserver = (_dec8 = subscriberCollection(),
   };
 
   CheckedObserver.prototype.setValue = function setValue(newValue) {
-    if (this.value === newValue) {
+    if (this.initialSync && this.value === newValue) {
       return;
     }
 
@@ -11677,6 +11481,10 @@ var CheckedObserver = exports.CheckedObserver = (_dec8 = subscriberCollection(),
     var oldValue = this.oldValue;
     var newValue = this.value;
 
+    if (newValue === oldValue) {
+      return;
+    }
+
     this.callSubscribers(newValue, oldValue);
   };
 
@@ -11758,12 +11566,9 @@ var SelectValueObserver = exports.SelectValueObserver = (_dec9 = subscriberColle
 
   SelectValueObserver.prototype.synchronizeOptions = function synchronizeOptions() {
     var value = this.value;
-    var clear = void 0;
     var isArray = void 0;
 
-    if (value === null || value === undefined) {
-      clear = true;
-    } else if (Array.isArray(value)) {
+    if (Array.isArray(value)) {
       isArray = true;
     }
 
@@ -11775,10 +11580,6 @@ var SelectValueObserver = exports.SelectValueObserver = (_dec9 = subscriberColle
 
     var _loop = function _loop() {
       var option = options.item(i);
-      if (clear) {
-        option.selected = false;
-        return 'continue';
-      }
       var optionValue = option.hasOwnProperty('model') ? option.model : option.value;
       if (isArray) {
         option.selected = value.findIndex(function (item) {
@@ -12044,234 +11845,260 @@ function createComputedObserver(obj, propertyName, descriptor, observerLocator) 
   return new ExpressionObserver(scope, dependencies, observerLocator);
 }
 
-var elements = exports.elements = {
-  a: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'target', 'transform', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  altGlyph: ['class', 'dx', 'dy', 'externalResourcesRequired', 'format', 'glyphRef', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rotate', 'style', 'systemLanguage', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  altGlyphDef: ['id', 'xml:base', 'xml:lang', 'xml:space'],
-  altGlyphItem: ['id', 'xml:base', 'xml:lang', 'xml:space'],
-  animate: ['accumulate', 'additive', 'attributeName', 'attributeType', 'begin', 'by', 'calcMode', 'dur', 'end', 'externalResourcesRequired', 'fill', 'from', 'id', 'keySplines', 'keyTimes', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'systemLanguage', 'to', 'values', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  animateColor: ['accumulate', 'additive', 'attributeName', 'attributeType', 'begin', 'by', 'calcMode', 'dur', 'end', 'externalResourcesRequired', 'fill', 'from', 'id', 'keySplines', 'keyTimes', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'systemLanguage', 'to', 'values', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  animateMotion: ['accumulate', 'additive', 'begin', 'by', 'calcMode', 'dur', 'end', 'externalResourcesRequired', 'fill', 'from', 'id', 'keyPoints', 'keySplines', 'keyTimes', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'origin', 'path', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'rotate', 'systemLanguage', 'to', 'values', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  animateTransform: ['accumulate', 'additive', 'attributeName', 'attributeType', 'begin', 'by', 'calcMode', 'dur', 'end', 'externalResourcesRequired', 'fill', 'from', 'id', 'keySplines', 'keyTimes', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'systemLanguage', 'to', 'type', 'values', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  circle: ['class', 'cx', 'cy', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'r', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  clipPath: ['class', 'clipPathUnits', 'externalResourcesRequired', 'id', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  'color-profile': ['id', 'local', 'name', 'rendering-intent', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  cursor: ['externalResourcesRequired', 'id', 'requiredExtensions', 'requiredFeatures', 'systemLanguage', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  defs: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  desc: ['class', 'id', 'style', 'xml:base', 'xml:lang', 'xml:space'],
-  ellipse: ['class', 'cx', 'cy', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rx', 'ry', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  feBlend: ['class', 'height', 'id', 'in', 'in2', 'mode', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feColorMatrix: ['class', 'height', 'id', 'in', 'result', 'style', 'type', 'values', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feComponentTransfer: ['class', 'height', 'id', 'in', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feComposite: ['class', 'height', 'id', 'in', 'in2', 'k1', 'k2', 'k3', 'k4', 'operator', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feConvolveMatrix: ['bias', 'class', 'divisor', 'edgeMode', 'height', 'id', 'in', 'kernelMatrix', 'kernelUnitLength', 'order', 'preserveAlpha', 'result', 'style', 'targetX', 'targetY', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feDiffuseLighting: ['class', 'diffuseConstant', 'height', 'id', 'in', 'kernelUnitLength', 'result', 'style', 'surfaceScale', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feDisplacementMap: ['class', 'height', 'id', 'in', 'in2', 'result', 'scale', 'style', 'width', 'x', 'xChannelSelector', 'xml:base', 'xml:lang', 'xml:space', 'y', 'yChannelSelector'],
-  feDistantLight: ['azimuth', 'elevation', 'id', 'xml:base', 'xml:lang', 'xml:space'],
-  feFlood: ['class', 'height', 'id', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feFuncA: ['amplitude', 'exponent', 'id', 'intercept', 'offset', 'slope', 'tableValues', 'type', 'xml:base', 'xml:lang', 'xml:space'],
-  feFuncB: ['amplitude', 'exponent', 'id', 'intercept', 'offset', 'slope', 'tableValues', 'type', 'xml:base', 'xml:lang', 'xml:space'],
-  feFuncG: ['amplitude', 'exponent', 'id', 'intercept', 'offset', 'slope', 'tableValues', 'type', 'xml:base', 'xml:lang', 'xml:space'],
-  feFuncR: ['amplitude', 'exponent', 'id', 'intercept', 'offset', 'slope', 'tableValues', 'type', 'xml:base', 'xml:lang', 'xml:space'],
-  feGaussianBlur: ['class', 'height', 'id', 'in', 'result', 'stdDeviation', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feImage: ['class', 'externalResourcesRequired', 'height', 'id', 'preserveAspectRatio', 'result', 'style', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feMerge: ['class', 'height', 'id', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feMergeNode: ['id', 'xml:base', 'xml:lang', 'xml:space'],
-  feMorphology: ['class', 'height', 'id', 'in', 'operator', 'radius', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feOffset: ['class', 'dx', 'dy', 'height', 'id', 'in', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  fePointLight: ['id', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y', 'z'],
-  feSpecularLighting: ['class', 'height', 'id', 'in', 'kernelUnitLength', 'result', 'specularConstant', 'specularExponent', 'style', 'surfaceScale', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feSpotLight: ['id', 'limitingConeAngle', 'pointsAtX', 'pointsAtY', 'pointsAtZ', 'specularExponent', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y', 'z'],
-  feTile: ['class', 'height', 'id', 'in', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  feTurbulence: ['baseFrequency', 'class', 'height', 'id', 'numOctaves', 'result', 'seed', 'stitchTiles', 'style', 'type', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  filter: ['class', 'externalResourcesRequired', 'filterRes', 'filterUnits', 'height', 'id', 'primitiveUnits', 'style', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  font: ['class', 'externalResourcesRequired', 'horiz-adv-x', 'horiz-origin-x', 'horiz-origin-y', 'id', 'style', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'xml:base', 'xml:lang', 'xml:space'],
-  'font-face': ['accent-height', 'alphabetic', 'ascent', 'bbox', 'cap-height', 'descent', 'font-family', 'font-size', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'hanging', 'id', 'ideographic', 'mathematical', 'overline-position', 'overline-thickness', 'panose-1', 'slope', 'stemh', 'stemv', 'strikethrough-position', 'strikethrough-thickness', 'underline-position', 'underline-thickness', 'unicode-range', 'units-per-em', 'v-alphabetic', 'v-hanging', 'v-ideographic', 'v-mathematical', 'widths', 'x-height', 'xml:base', 'xml:lang', 'xml:space'],
-  'font-face-format': ['id', 'string', 'xml:base', 'xml:lang', 'xml:space'],
-  'font-face-name': ['id', 'name', 'xml:base', 'xml:lang', 'xml:space'],
-  'font-face-src': ['id', 'xml:base', 'xml:lang', 'xml:space'],
-  'font-face-uri': ['id', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  foreignObject: ['class', 'externalResourcesRequired', 'height', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  g: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  glyph: ['arabic-form', 'class', 'd', 'glyph-name', 'horiz-adv-x', 'id', 'lang', 'orientation', 'style', 'unicode', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'xml:base', 'xml:lang', 'xml:space'],
-  glyphRef: ['class', 'dx', 'dy', 'format', 'glyphRef', 'id', 'style', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  hkern: ['g1', 'g2', 'id', 'k', 'u1', 'u2', 'xml:base', 'xml:lang', 'xml:space'],
-  image: ['class', 'externalResourcesRequired', 'height', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'preserveAspectRatio', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  line: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'x1', 'x2', 'xml:base', 'xml:lang', 'xml:space', 'y1', 'y2'],
-  linearGradient: ['class', 'externalResourcesRequired', 'gradientTransform', 'gradientUnits', 'id', 'spreadMethod', 'style', 'x1', 'x2', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y1', 'y2'],
-  marker: ['class', 'externalResourcesRequired', 'id', 'markerHeight', 'markerUnits', 'markerWidth', 'orient', 'preserveAspectRatio', 'refX', 'refY', 'style', 'viewBox', 'xml:base', 'xml:lang', 'xml:space'],
-  mask: ['class', 'externalResourcesRequired', 'height', 'id', 'maskContentUnits', 'maskUnits', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  metadata: ['id', 'xml:base', 'xml:lang', 'xml:space'],
-  'missing-glyph': ['class', 'd', 'horiz-adv-x', 'id', 'style', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'xml:base', 'xml:lang', 'xml:space'],
-  mpath: ['externalResourcesRequired', 'id', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  path: ['class', 'd', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'pathLength', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  pattern: ['class', 'externalResourcesRequired', 'height', 'id', 'patternContentUnits', 'patternTransform', 'patternUnits', 'preserveAspectRatio', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'viewBox', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  polygon: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'points', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  polyline: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'points', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  radialGradient: ['class', 'cx', 'cy', 'externalResourcesRequired', 'fx', 'fy', 'gradientTransform', 'gradientUnits', 'id', 'r', 'spreadMethod', 'style', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  rect: ['class', 'externalResourcesRequired', 'height', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rx', 'ry', 'style', 'systemLanguage', 'transform', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  script: ['externalResourcesRequired', 'id', 'type', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  set: ['attributeName', 'attributeType', 'begin', 'dur', 'end', 'externalResourcesRequired', 'fill', 'id', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'systemLanguage', 'to', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  stop: ['class', 'id', 'offset', 'style', 'xml:base', 'xml:lang', 'xml:space'],
-  style: ['id', 'media', 'title', 'type', 'xml:base', 'xml:lang', 'xml:space'],
-  svg: ['baseProfile', 'class', 'contentScriptType', 'contentStyleType', 'externalResourcesRequired', 'height', 'id', 'onabort', 'onactivate', 'onclick', 'onerror', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onresize', 'onscroll', 'onunload', 'onzoom', 'preserveAspectRatio', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'version', 'viewBox', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y', 'zoomAndPan'],
-  switch: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
-  symbol: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'preserveAspectRatio', 'style', 'viewBox', 'xml:base', 'xml:lang', 'xml:space'],
-  text: ['class', 'dx', 'dy', 'externalResourcesRequired', 'id', 'lengthAdjust', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rotate', 'style', 'systemLanguage', 'textLength', 'transform', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  textPath: ['class', 'externalResourcesRequired', 'id', 'lengthAdjust', 'method', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'spacing', 'startOffset', 'style', 'systemLanguage', 'textLength', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
-  title: ['class', 'id', 'style', 'xml:base', 'xml:lang', 'xml:space'],
-  tref: ['class', 'dx', 'dy', 'externalResourcesRequired', 'id', 'lengthAdjust', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rotate', 'style', 'systemLanguage', 'textLength', 'x', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  tspan: ['class', 'dx', 'dy', 'externalResourcesRequired', 'id', 'lengthAdjust', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rotate', 'style', 'systemLanguage', 'textLength', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  use: ['class', 'externalResourcesRequired', 'height', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
-  view: ['externalResourcesRequired', 'id', 'preserveAspectRatio', 'viewBox', 'viewTarget', 'xml:base', 'xml:lang', 'xml:space', 'zoomAndPan'],
-  vkern: ['g1', 'g2', 'id', 'k', 'u1', 'u2', 'xml:base', 'xml:lang', 'xml:space']
-};
-var presentationElements = exports.presentationElements = {
-  'a': true,
-  'altGlyph': true,
-  'animate': true,
-  'animateColor': true,
-  'circle': true,
-  'clipPath': true,
-  'defs': true,
-  'ellipse': true,
-  'feBlend': true,
-  'feColorMatrix': true,
-  'feComponentTransfer': true,
-  'feComposite': true,
-  'feConvolveMatrix': true,
-  'feDiffuseLighting': true,
-  'feDisplacementMap': true,
-  'feFlood': true,
-  'feGaussianBlur': true,
-  'feImage': true,
-  'feMerge': true,
-  'feMorphology': true,
-  'feOffset': true,
-  'feSpecularLighting': true,
-  'feTile': true,
-  'feTurbulence': true,
-  'filter': true,
-  'font': true,
-  'foreignObject': true,
-  'g': true,
-  'glyph': true,
-  'glyphRef': true,
-  'image': true,
-  'line': true,
-  'linearGradient': true,
-  'marker': true,
-  'mask': true,
-  'missing-glyph': true,
-  'path': true,
-  'pattern': true,
-  'polygon': true,
-  'polyline': true,
-  'radialGradient': true,
-  'rect': true,
-  'stop': true,
-  'svg': true,
-  'switch': true,
-  'symbol': true,
-  'text': true,
-  'textPath': true,
-  'tref': true,
-  'tspan': true,
-  'use': true
-};
+var svgElements = void 0;
+var svgPresentationElements = void 0;
+var svgPresentationAttributes = void 0;
+var svgAnalyzer = void 0;
 
-var presentationAttributes = exports.presentationAttributes = {
-  'alignment-baseline': true,
-  'baseline-shift': true,
-  'clip-path': true,
-  'clip-rule': true,
-  'clip': true,
-  'color-interpolation-filters': true,
-  'color-interpolation': true,
-  'color-profile': true,
-  'color-rendering': true,
-  'color': true,
-  'cursor': true,
-  'direction': true,
-  'display': true,
-  'dominant-baseline': true,
-  'enable-background': true,
-  'fill-opacity': true,
-  'fill-rule': true,
-  'fill': true,
-  'filter': true,
-  'flood-color': true,
-  'flood-opacity': true,
-  'font-family': true,
-  'font-size-adjust': true,
-  'font-size': true,
-  'font-stretch': true,
-  'font-style': true,
-  'font-variant': true,
-  'font-weight': true,
-  'glyph-orientation-horizontal': true,
-  'glyph-orientation-vertical': true,
-  'image-rendering': true,
-  'kerning': true,
-  'letter-spacing': true,
-  'lighting-color': true,
-  'marker-end': true,
-  'marker-mid': true,
-  'marker-start': true,
-  'mask': true,
-  'opacity': true,
-  'overflow': true,
-  'pointer-events': true,
-  'shape-rendering': true,
-  'stop-color': true,
-  'stop-opacity': true,
-  'stroke-dasharray': true,
-  'stroke-dashoffset': true,
-  'stroke-linecap': true,
-  'stroke-linejoin': true,
-  'stroke-miterlimit': true,
-  'stroke-opacity': true,
-  'stroke-width': true,
-  'stroke': true,
-  'text-anchor': true,
-  'text-decoration': true,
-  'text-rendering': true,
-  'unicode-bidi': true,
-  'visibility': true,
-  'word-spacing': true,
-  'writing-mode': true
-};
+if (typeof FEATURE_NO_SVG === 'undefined') {
+  (function () {
+    svgElements = {
+      a: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'target', 'transform', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      altGlyph: ['class', 'dx', 'dy', 'externalResourcesRequired', 'format', 'glyphRef', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rotate', 'style', 'systemLanguage', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      altGlyphDef: ['id', 'xml:base', 'xml:lang', 'xml:space'],
+      altGlyphItem: ['id', 'xml:base', 'xml:lang', 'xml:space'],
+      animate: ['accumulate', 'additive', 'attributeName', 'attributeType', 'begin', 'by', 'calcMode', 'dur', 'end', 'externalResourcesRequired', 'fill', 'from', 'id', 'keySplines', 'keyTimes', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'systemLanguage', 'to', 'values', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      animateColor: ['accumulate', 'additive', 'attributeName', 'attributeType', 'begin', 'by', 'calcMode', 'dur', 'end', 'externalResourcesRequired', 'fill', 'from', 'id', 'keySplines', 'keyTimes', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'systemLanguage', 'to', 'values', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      animateMotion: ['accumulate', 'additive', 'begin', 'by', 'calcMode', 'dur', 'end', 'externalResourcesRequired', 'fill', 'from', 'id', 'keyPoints', 'keySplines', 'keyTimes', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'origin', 'path', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'rotate', 'systemLanguage', 'to', 'values', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      animateTransform: ['accumulate', 'additive', 'attributeName', 'attributeType', 'begin', 'by', 'calcMode', 'dur', 'end', 'externalResourcesRequired', 'fill', 'from', 'id', 'keySplines', 'keyTimes', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'systemLanguage', 'to', 'type', 'values', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      circle: ['class', 'cx', 'cy', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'r', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      clipPath: ['class', 'clipPathUnits', 'externalResourcesRequired', 'id', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      'color-profile': ['id', 'local', 'name', 'rendering-intent', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      cursor: ['externalResourcesRequired', 'id', 'requiredExtensions', 'requiredFeatures', 'systemLanguage', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      defs: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      desc: ['class', 'id', 'style', 'xml:base', 'xml:lang', 'xml:space'],
+      ellipse: ['class', 'cx', 'cy', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rx', 'ry', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      feBlend: ['class', 'height', 'id', 'in', 'in2', 'mode', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feColorMatrix: ['class', 'height', 'id', 'in', 'result', 'style', 'type', 'values', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feComponentTransfer: ['class', 'height', 'id', 'in', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feComposite: ['class', 'height', 'id', 'in', 'in2', 'k1', 'k2', 'k3', 'k4', 'operator', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feConvolveMatrix: ['bias', 'class', 'divisor', 'edgeMode', 'height', 'id', 'in', 'kernelMatrix', 'kernelUnitLength', 'order', 'preserveAlpha', 'result', 'style', 'targetX', 'targetY', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feDiffuseLighting: ['class', 'diffuseConstant', 'height', 'id', 'in', 'kernelUnitLength', 'result', 'style', 'surfaceScale', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feDisplacementMap: ['class', 'height', 'id', 'in', 'in2', 'result', 'scale', 'style', 'width', 'x', 'xChannelSelector', 'xml:base', 'xml:lang', 'xml:space', 'y', 'yChannelSelector'],
+      feDistantLight: ['azimuth', 'elevation', 'id', 'xml:base', 'xml:lang', 'xml:space'],
+      feFlood: ['class', 'height', 'id', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feFuncA: ['amplitude', 'exponent', 'id', 'intercept', 'offset', 'slope', 'tableValues', 'type', 'xml:base', 'xml:lang', 'xml:space'],
+      feFuncB: ['amplitude', 'exponent', 'id', 'intercept', 'offset', 'slope', 'tableValues', 'type', 'xml:base', 'xml:lang', 'xml:space'],
+      feFuncG: ['amplitude', 'exponent', 'id', 'intercept', 'offset', 'slope', 'tableValues', 'type', 'xml:base', 'xml:lang', 'xml:space'],
+      feFuncR: ['amplitude', 'exponent', 'id', 'intercept', 'offset', 'slope', 'tableValues', 'type', 'xml:base', 'xml:lang', 'xml:space'],
+      feGaussianBlur: ['class', 'height', 'id', 'in', 'result', 'stdDeviation', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feImage: ['class', 'externalResourcesRequired', 'height', 'id', 'preserveAspectRatio', 'result', 'style', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feMerge: ['class', 'height', 'id', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feMergeNode: ['id', 'xml:base', 'xml:lang', 'xml:space'],
+      feMorphology: ['class', 'height', 'id', 'in', 'operator', 'radius', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feOffset: ['class', 'dx', 'dy', 'height', 'id', 'in', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      fePointLight: ['id', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y', 'z'],
+      feSpecularLighting: ['class', 'height', 'id', 'in', 'kernelUnitLength', 'result', 'specularConstant', 'specularExponent', 'style', 'surfaceScale', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feSpotLight: ['id', 'limitingConeAngle', 'pointsAtX', 'pointsAtY', 'pointsAtZ', 'specularExponent', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y', 'z'],
+      feTile: ['class', 'height', 'id', 'in', 'result', 'style', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      feTurbulence: ['baseFrequency', 'class', 'height', 'id', 'numOctaves', 'result', 'seed', 'stitchTiles', 'style', 'type', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      filter: ['class', 'externalResourcesRequired', 'filterRes', 'filterUnits', 'height', 'id', 'primitiveUnits', 'style', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      font: ['class', 'externalResourcesRequired', 'horiz-adv-x', 'horiz-origin-x', 'horiz-origin-y', 'id', 'style', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'xml:base', 'xml:lang', 'xml:space'],
+      'font-face': ['accent-height', 'alphabetic', 'ascent', 'bbox', 'cap-height', 'descent', 'font-family', 'font-size', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'hanging', 'id', 'ideographic', 'mathematical', 'overline-position', 'overline-thickness', 'panose-1', 'slope', 'stemh', 'stemv', 'strikethrough-position', 'strikethrough-thickness', 'underline-position', 'underline-thickness', 'unicode-range', 'units-per-em', 'v-alphabetic', 'v-hanging', 'v-ideographic', 'v-mathematical', 'widths', 'x-height', 'xml:base', 'xml:lang', 'xml:space'],
+      'font-face-format': ['id', 'string', 'xml:base', 'xml:lang', 'xml:space'],
+      'font-face-name': ['id', 'name', 'xml:base', 'xml:lang', 'xml:space'],
+      'font-face-src': ['id', 'xml:base', 'xml:lang', 'xml:space'],
+      'font-face-uri': ['id', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      foreignObject: ['class', 'externalResourcesRequired', 'height', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      g: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      glyph: ['arabic-form', 'class', 'd', 'glyph-name', 'horiz-adv-x', 'id', 'lang', 'orientation', 'style', 'unicode', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'xml:base', 'xml:lang', 'xml:space'],
+      glyphRef: ['class', 'dx', 'dy', 'format', 'glyphRef', 'id', 'style', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      hkern: ['g1', 'g2', 'id', 'k', 'u1', 'u2', 'xml:base', 'xml:lang', 'xml:space'],
+      image: ['class', 'externalResourcesRequired', 'height', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'preserveAspectRatio', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      line: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'x1', 'x2', 'xml:base', 'xml:lang', 'xml:space', 'y1', 'y2'],
+      linearGradient: ['class', 'externalResourcesRequired', 'gradientTransform', 'gradientUnits', 'id', 'spreadMethod', 'style', 'x1', 'x2', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y1', 'y2'],
+      marker: ['class', 'externalResourcesRequired', 'id', 'markerHeight', 'markerUnits', 'markerWidth', 'orient', 'preserveAspectRatio', 'refX', 'refY', 'style', 'viewBox', 'xml:base', 'xml:lang', 'xml:space'],
+      mask: ['class', 'externalResourcesRequired', 'height', 'id', 'maskContentUnits', 'maskUnits', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      metadata: ['id', 'xml:base', 'xml:lang', 'xml:space'],
+      'missing-glyph': ['class', 'd', 'horiz-adv-x', 'id', 'style', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'xml:base', 'xml:lang', 'xml:space'],
+      mpath: ['externalResourcesRequired', 'id', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      path: ['class', 'd', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'pathLength', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      pattern: ['class', 'externalResourcesRequired', 'height', 'id', 'patternContentUnits', 'patternTransform', 'patternUnits', 'preserveAspectRatio', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'viewBox', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      polygon: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'points', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      polyline: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'points', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      radialGradient: ['class', 'cx', 'cy', 'externalResourcesRequired', 'fx', 'fy', 'gradientTransform', 'gradientUnits', 'id', 'r', 'spreadMethod', 'style', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      rect: ['class', 'externalResourcesRequired', 'height', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rx', 'ry', 'style', 'systemLanguage', 'transform', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      script: ['externalResourcesRequired', 'id', 'type', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      set: ['attributeName', 'attributeType', 'begin', 'dur', 'end', 'externalResourcesRequired', 'fill', 'id', 'max', 'min', 'onbegin', 'onend', 'onload', 'onrepeat', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'restart', 'systemLanguage', 'to', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      stop: ['class', 'id', 'offset', 'style', 'xml:base', 'xml:lang', 'xml:space'],
+      style: ['id', 'media', 'title', 'type', 'xml:base', 'xml:lang', 'xml:space'],
+      svg: ['baseProfile', 'class', 'contentScriptType', 'contentStyleType', 'externalResourcesRequired', 'height', 'id', 'onabort', 'onactivate', 'onclick', 'onerror', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onresize', 'onscroll', 'onunload', 'onzoom', 'preserveAspectRatio', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'version', 'viewBox', 'width', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y', 'zoomAndPan'],
+      switch: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'xml:base', 'xml:lang', 'xml:space'],
+      symbol: ['class', 'externalResourcesRequired', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'preserveAspectRatio', 'style', 'viewBox', 'xml:base', 'xml:lang', 'xml:space'],
+      text: ['class', 'dx', 'dy', 'externalResourcesRequired', 'id', 'lengthAdjust', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rotate', 'style', 'systemLanguage', 'textLength', 'transform', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      textPath: ['class', 'externalResourcesRequired', 'id', 'lengthAdjust', 'method', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'spacing', 'startOffset', 'style', 'systemLanguage', 'textLength', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space'],
+      title: ['class', 'id', 'style', 'xml:base', 'xml:lang', 'xml:space'],
+      tref: ['class', 'dx', 'dy', 'externalResourcesRequired', 'id', 'lengthAdjust', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rotate', 'style', 'systemLanguage', 'textLength', 'x', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      tspan: ['class', 'dx', 'dy', 'externalResourcesRequired', 'id', 'lengthAdjust', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'rotate', 'style', 'systemLanguage', 'textLength', 'x', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      use: ['class', 'externalResourcesRequired', 'height', 'id', 'onactivate', 'onclick', 'onfocusin', 'onfocusout', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'requiredExtensions', 'requiredFeatures', 'style', 'systemLanguage', 'transform', 'width', 'x', 'xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'y'],
+      view: ['externalResourcesRequired', 'id', 'preserveAspectRatio', 'viewBox', 'viewTarget', 'xml:base', 'xml:lang', 'xml:space', 'zoomAndPan'],
+      vkern: ['g1', 'g2', 'id', 'k', 'u1', 'u2', 'xml:base', 'xml:lang', 'xml:space']
+    };
 
-function createElement(html) {
-  var div = _aureliaPal.DOM.createElement('div');
-  div.innerHTML = html;
-  return div.firstChild;
+
+    svgPresentationElements = {
+      'a': true,
+      'altGlyph': true,
+      'animate': true,
+      'animateColor': true,
+      'circle': true,
+      'clipPath': true,
+      'defs': true,
+      'ellipse': true,
+      'feBlend': true,
+      'feColorMatrix': true,
+      'feComponentTransfer': true,
+      'feComposite': true,
+      'feConvolveMatrix': true,
+      'feDiffuseLighting': true,
+      'feDisplacementMap': true,
+      'feFlood': true,
+      'feGaussianBlur': true,
+      'feImage': true,
+      'feMerge': true,
+      'feMorphology': true,
+      'feOffset': true,
+      'feSpecularLighting': true,
+      'feTile': true,
+      'feTurbulence': true,
+      'filter': true,
+      'font': true,
+      'foreignObject': true,
+      'g': true,
+      'glyph': true,
+      'glyphRef': true,
+      'image': true,
+      'line': true,
+      'linearGradient': true,
+      'marker': true,
+      'mask': true,
+      'missing-glyph': true,
+      'path': true,
+      'pattern': true,
+      'polygon': true,
+      'polyline': true,
+      'radialGradient': true,
+      'rect': true,
+      'stop': true,
+      'svg': true,
+      'switch': true,
+      'symbol': true,
+      'text': true,
+      'textPath': true,
+      'tref': true,
+      'tspan': true,
+      'use': true
+    };
+
+    svgPresentationAttributes = {
+      'alignment-baseline': true,
+      'baseline-shift': true,
+      'clip-path': true,
+      'clip-rule': true,
+      'clip': true,
+      'color-interpolation-filters': true,
+      'color-interpolation': true,
+      'color-profile': true,
+      'color-rendering': true,
+      'color': true,
+      'cursor': true,
+      'direction': true,
+      'display': true,
+      'dominant-baseline': true,
+      'enable-background': true,
+      'fill-opacity': true,
+      'fill-rule': true,
+      'fill': true,
+      'filter': true,
+      'flood-color': true,
+      'flood-opacity': true,
+      'font-family': true,
+      'font-size-adjust': true,
+      'font-size': true,
+      'font-stretch': true,
+      'font-style': true,
+      'font-variant': true,
+      'font-weight': true,
+      'glyph-orientation-horizontal': true,
+      'glyph-orientation-vertical': true,
+      'image-rendering': true,
+      'kerning': true,
+      'letter-spacing': true,
+      'lighting-color': true,
+      'marker-end': true,
+      'marker-mid': true,
+      'marker-start': true,
+      'mask': true,
+      'opacity': true,
+      'overflow': true,
+      'pointer-events': true,
+      'shape-rendering': true,
+      'stop-color': true,
+      'stop-opacity': true,
+      'stroke-dasharray': true,
+      'stroke-dashoffset': true,
+      'stroke-linecap': true,
+      'stroke-linejoin': true,
+      'stroke-miterlimit': true,
+      'stroke-opacity': true,
+      'stroke-width': true,
+      'stroke': true,
+      'text-anchor': true,
+      'text-decoration': true,
+      'text-rendering': true,
+      'unicode-bidi': true,
+      'visibility': true,
+      'word-spacing': true,
+      'writing-mode': true
+    };
+
+    var createElement = function createElement(html) {
+      var div = _aureliaPal.DOM.createElement('div');
+      div.innerHTML = html;
+      return div.firstChild;
+    };
+
+    svgAnalyzer = function () {
+      function SVGAnalyzer() {
+        
+
+        if (createElement('<svg><altGlyph /></svg>').firstElementChild.nodeName === 'altglyph' && elements.altGlyph) {
+          elements.altglyph = elements.altGlyph;
+          delete elements.altGlyph;
+          elements.altglyphdef = elements.altGlyphDef;
+          delete elements.altGlyphDef;
+          elements.altglyphitem = elements.altGlyphItem;
+          delete elements.altGlyphItem;
+          elements.glyphref = elements.glyphRef;
+          delete elements.glyphRef;
+        }
+      }
+
+      SVGAnalyzer.prototype.isStandardSvgAttribute = function isStandardSvgAttribute(nodeName, attributeName) {
+        return presentationElements[nodeName] && presentationAttributes[attributeName] || elements[nodeName] && elements[nodeName].indexOf(attributeName) !== -1;
+      };
+
+      return SVGAnalyzer;
+    }();
+  })();
 }
 
-var SVGAnalyzer = exports.SVGAnalyzer = function () {
-  function SVGAnalyzer() {
+var elements = exports.elements = svgElements;
+var presentationElements = exports.presentationElements = svgPresentationElements;
+var presentationAttributes = exports.presentationAttributes = svgPresentationAttributes;
+var SVGAnalyzer = exports.SVGAnalyzer = svgAnalyzer || function () {
+  function _class11() {
     
-
-    if (createElement('<svg><altGlyph /></svg>').firstElementChild.nodeName === 'altglyph' && elements.altGlyph) {
-      elements.altglyph = elements.altGlyph;
-      delete elements.altGlyph;
-      elements.altglyphdef = elements.altGlyphDef;
-      delete elements.altGlyphDef;
-      elements.altglyphitem = elements.altGlyphItem;
-      delete elements.altGlyphItem;
-      elements.glyphref = elements.glyphRef;
-      delete elements.glyphRef;
-    }
   }
 
-  SVGAnalyzer.prototype.isStandardSvgAttribute = function isStandardSvgAttribute(nodeName, attributeName) {
-    return presentationElements[nodeName] && presentationAttributes[attributeName] || elements[nodeName] && elements[nodeName].indexOf(attributeName) !== -1;
+  _class11.prototype.isStandardSvgAttribute = function isStandardSvgAttribute() {
+    return false;
   };
 
-  return SVGAnalyzer;
+  return _class11;
 }();
 
-var ObserverLocator = exports.ObserverLocator = (_temp = _class11 = function () {
+var ObserverLocator = exports.ObserverLocator = (_temp = _class12 = function () {
   function ObserverLocator(taskQueue, eventManager, dirtyChecker, svgAnalyzer, parser) {
     
 
@@ -12443,7 +12270,7 @@ var ObserverLocator = exports.ObserverLocator = (_temp = _class11 = function () 
   };
 
   return ObserverLocator;
-}(), _class11.inject = [_aureliaTaskQueue.TaskQueue, EventManager, DirtyChecker, SVGAnalyzer, Parser], _temp);
+}(), _class12.inject = [_aureliaTaskQueue.TaskQueue, EventManager, DirtyChecker, SVGAnalyzer, Parser], _temp);
 
 var ObjectObservationAdapter = exports.ObjectObservationAdapter = function () {
   function ObjectObservationAdapter() {
@@ -12479,7 +12306,7 @@ var BindingExpression = exports.BindingExpression = function () {
 
 var targetContext = 'Binding:target';
 
-var Binding = exports.Binding = (_dec10 = connectable(), _dec10(_class12 = function () {
+var Binding = exports.Binding = (_dec10 = connectable(), _dec10(_class13 = function () {
   function Binding(observerLocator, sourceExpression, target, targetProperty, mode, lookupFunctions) {
     
 
@@ -12589,7 +12416,7 @@ var Binding = exports.Binding = (_dec10 = connectable(), _dec10(_class12 = funct
   };
 
   return Binding;
-}()) || _class12);
+}()) || _class13);
 
 var CallExpression = exports.CallExpression = function () {
   function CallExpression(observerLocator, targetProperty, sourceExpression, lookupFunctions) {
@@ -12917,7 +12744,7 @@ var LookupFunctions = {
   }
 };
 
-var BindingEngine = exports.BindingEngine = (_temp2 = _class13 = function () {
+var BindingEngine = exports.BindingEngine = (_temp2 = _class14 = function () {
   function BindingEngine(observerLocator, parser) {
     
 
@@ -12987,7 +12814,7 @@ var BindingEngine = exports.BindingEngine = (_temp2 = _class13 = function () {
   };
 
   return BindingEngine;
-}(), _class13.inject = [ObserverLocator, Parser], _temp2);
+}(), _class14.inject = [ObserverLocator, Parser], _temp2);
 
 
 var setProto = Set.prototype;
@@ -13364,7 +13191,7 @@ ___scope___.file("dist/commonjs/aurelia-templating.js", function(exports, requir
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TemplatingEngine = exports.ElementConfigResource = exports.CompositionEngine = exports.HtmlBehaviorResource = exports.BindableProperty = exports.BehaviorPropertyObserver = exports.Controller = exports.ViewEngine = exports.ModuleAnalyzer = exports.ResourceDescription = exports.ResourceModule = exports.ViewCompiler = exports.ViewFactory = exports.BoundViewFactory = exports.ViewSlot = exports.View = exports.ViewResources = exports.ShadowDOM = exports.ShadowSlot = exports.PassThroughSlot = exports.SlotCustomAttribute = exports.BindingLanguage = exports.ViewLocator = exports.InlineViewStrategy = exports.TemplateRegistryViewStrategy = exports.NoViewStrategy = exports.ConventionalViewStrategy = exports.RelativeViewStrategy = exports.viewStrategy = exports.TargetInstruction = exports.BehaviorInstruction = exports.ViewCompileInstruction = exports.ResourceLoadContext = exports.ElementEvents = exports.ViewEngineHooksResource = exports.CompositionTransaction = exports.CompositionTransactionOwnershipToken = exports.CompositionTransactionNotifier = exports.Animator = exports.animationEvent = undefined;
+exports.TemplatingEngine = exports.ElementConfigResource = exports.CompositionEngine = exports.SwapStrategies = exports.HtmlBehaviorResource = exports.BindableProperty = exports.BehaviorPropertyObserver = exports.Controller = exports.ViewEngine = exports.ModuleAnalyzer = exports.ResourceDescription = exports.ResourceModule = exports.ViewCompiler = exports.ViewFactory = exports.BoundViewFactory = exports.ViewSlot = exports.View = exports.ViewResources = exports.ShadowDOM = exports.ShadowSlot = exports.PassThroughSlot = exports.SlotCustomAttribute = exports.BindingLanguage = exports.ViewLocator = exports.InlineViewStrategy = exports.TemplateRegistryViewStrategy = exports.NoViewStrategy = exports.ConventionalViewStrategy = exports.RelativeViewStrategy = exports.viewStrategy = exports.TargetInstruction = exports.BehaviorInstruction = exports.ViewCompileInstruction = exports.ResourceLoadContext = exports.ElementEvents = exports.ViewEngineHooksResource = exports.CompositionTransaction = exports.CompositionTransactionOwnershipToken = exports.CompositionTransactionNotifier = exports.Animator = exports.animationEvent = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -15224,7 +15051,11 @@ var ViewSlot = exports.ViewSlot = function () {
 
       if (returnToCache) {
         for (i = 0; i < ii; ++i) {
-          children[i].returnToCache();
+          var _child3 = children[i];
+
+          if (_child3) {
+            _child3.returnToCache();
+          }
         }
       }
 
@@ -15808,10 +15639,10 @@ function makeShadowSlot(compiler, resources, node, instructions, parentInjectorI
 
   if (node.innerHTML.trim()) {
     var fragment = _aureliaPal.DOM.createDocumentFragment();
-    var _child3 = void 0;
+    var _child4 = void 0;
 
-    while (_child3 = node.firstChild) {
-      fragment.appendChild(_child3);
+    while (_child4 = node.firstChild) {
+      fragment.appendChild(_child4);
     }
 
     instruction.slotFallbackFactory = compiler.compile(fragment, resources);
@@ -15956,7 +15787,10 @@ var ViewCompiler = exports.ViewCompiler = (_dec7 = (0, _aureliaDependencyInjecti
             }
 
             if (info.command && info.command !== 'options' && type.primaryProperty) {
-              attrName = info.attrName = type.primaryProperty.name;
+              var primaryProperty = type.primaryProperty;
+              attrName = info.attrName = primaryProperty.name;
+
+              info.defaultBindingMode = primaryProperty.defaultBindingMode;
             }
           }
         }
@@ -16090,7 +15924,10 @@ var ViewCompiler = exports.ViewCompiler = (_dec7 = (0, _aureliaDependencyInjecti
             }
 
             if (info.command && info.command !== 'options' && type.primaryProperty) {
-              attrName = info.attrName = type.primaryProperty.name;
+              var primaryProperty = type.primaryProperty;
+              attrName = info.attrName = primaryProperty.name;
+
+              info.defaultBindingMode = primaryProperty.defaultBindingMode;
             }
           }
         }
@@ -17499,6 +17336,7 @@ function createChildObserverDecorator(selectorOrConfig, all) {
 
     if (descriptor) {
       descriptor.writable = true;
+      descriptor.configurable = true;
     }
 
     selectorOrConfig.all = all;
@@ -17755,6 +17593,24 @@ var ChildObserverBinder = function () {
   return ChildObserverBinder;
 }();
 
+function remove(viewSlot, previous) {
+  return Array.isArray(previous) ? viewSlot.removeMany(previous, true) : viewSlot.remove(previous, true);
+}
+
+var SwapStrategies = exports.SwapStrategies = {
+  before: function before(viewSlot, previous, callback) {
+    return previous === undefined ? callback() : callback().then(function () {
+      return remove(viewSlot, previous);
+    });
+  },
+  with: function _with(viewSlot, previous, callback) {
+    return previous === undefined ? callback() : Promise.all([remove(viewSlot, previous), callback()]);
+  },
+  after: function after(viewSlot, previous, callback) {
+    return Promise.resolve(viewSlot.removeAll(true)).then(callback);
+  }
+};
+
 function tryActivateViewModel(context) {
   if (context.skipActivation || typeof context.viewModel.activate !== 'function') {
     return Promise.resolve();
@@ -17771,38 +17627,45 @@ var CompositionEngine = exports.CompositionEngine = (_dec10 = (0, _aureliaDepend
     this.viewLocator = viewLocator;
   }
 
-  CompositionEngine.prototype._createControllerAndSwap = function _createControllerAndSwap(context) {
-    function swap(controller) {
-      return Promise.resolve(context.viewSlot.removeAll(true)).then(function () {
+  CompositionEngine.prototype._swap = function _swap(context, view) {
+    var swapStrategy = SwapStrategies[context.swapOrder] || SwapStrategies.after;
+    var previousViews = context.viewSlot.children.slice();
+
+    return swapStrategy(context.viewSlot, previousViews, function () {
+      return Promise.resolve(context.viewSlot.add(view)).then(function () {
         if (context.currentController) {
           context.currentController.unbind();
         }
-
-        context.viewSlot.add(controller.view);
-
-        if (context.compositionTransactionNotifier) {
-          context.compositionTransactionNotifier.done();
-        }
-
-        return controller;
       });
-    }
+    }).then(function () {
+      if (context.compositionTransactionNotifier) {
+        context.compositionTransactionNotifier.done();
+      }
+    });
+  };
+
+  CompositionEngine.prototype._createControllerAndSwap = function _createControllerAndSwap(context) {
+    var _this14 = this;
 
     return this.createController(context).then(function (controller) {
       controller.automate(context.overrideContext, context.owningView);
 
       if (context.compositionTransactionOwnershipToken) {
         return context.compositionTransactionOwnershipToken.waitForCompositionComplete().then(function () {
-          return swap(controller);
+          return _this14._swap(context, controller.view);
+        }).then(function () {
+          return controller;
         });
       }
 
-      return swap(controller);
+      return _this14._swap(context, controller.view).then(function () {
+        return controller;
+      });
     });
   };
 
   CompositionEngine.prototype.createController = function createController(context) {
-    var _this14 = this;
+    var _this15 = this;
 
     var childContainer = void 0;
     var viewModel = void 0;
@@ -17815,7 +17678,7 @@ var CompositionEngine = exports.CompositionEngine = (_dec10 = (0, _aureliaDepend
       viewModelResource = context.viewModelResource;
       m = viewModelResource.metadata;
 
-      var viewStrategy = _this14.viewLocator.getViewStrategy(context.view || viewModel);
+      var viewStrategy = _this15.viewLocator.getViewStrategy(context.view || viewModel);
 
       if (context.viewResources) {
         viewStrategy.makeRelativeTo(context.viewResources.viewUrl);
@@ -17855,6 +17718,8 @@ var CompositionEngine = exports.CompositionEngine = (_dec10 = (0, _aureliaDepend
   };
 
   CompositionEngine.prototype.compose = function compose(context) {
+    var _this16 = this;
+
     context.childContainer = context.childContainer || context.container.createChild();
     context.view = this.viewLocator.getViewStrategy(context.view);
 
@@ -17878,23 +17743,17 @@ var CompositionEngine = exports.CompositionEngine = (_dec10 = (0, _aureliaDepend
         var result = viewFactory.create(context.childContainer);
         result.bind(context.bindingContext, context.overrideContext);
 
-        var work = function work() {
-          return Promise.resolve(context.viewSlot.removeAll(true)).then(function () {
-            context.viewSlot.add(result);
-
-            if (context.compositionTransactionNotifier) {
-              context.compositionTransactionNotifier.done();
-            }
-
+        if (context.compositionTransactionOwnershipToken) {
+          return context.compositionTransactionOwnershipToken.waitForCompositionComplete().then(function () {
+            return _this16._swap(context, result);
+          }).then(function () {
             return result;
           });
-        };
-
-        if (context.compositionTransactionOwnershipToken) {
-          return context.compositionTransactionOwnershipToken.waitForCompositionComplete().then(work);
         }
 
-        return work();
+        return _this16._swap(context, result).then(function () {
+          return result;
+        });
       });
     } else if (context.viewSlot) {
       context.viewSlot.removeAll();
@@ -19514,6 +19373,8 @@ var AttributeMap = exports.AttributeMap = (_temp = _class = function () {
 
     this.register('label', 'for', 'htmlFor');
 
+    this.register('img', 'usemap', 'useMap');
+
     this.register('input', 'maxlength', 'maxLength');
     this.register('input', 'minlength', 'minLength');
     this.register('input', 'formaction', 'formAction');
@@ -20450,7 +20311,9 @@ ___scope___.file("dist/commonjs/aurelia-templating-resources.js", function(expor
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.viewsRequireLifecycle = exports.unwrapExpression = exports.updateOneTimeBinding = exports.isOneTime = exports.getItemsSourceExpression = exports.updateOverrideContext = exports.createFullOverrideContext = exports.NumberRepeatStrategy = exports.SetRepeatStrategy = exports.MapRepeatStrategy = exports.ArrayRepeatStrategy = exports.NullRepeatStrategy = exports.RepeatStrategyLocator = exports.AbstractRepeater = exports.UpdateTriggerBindingBehavior = exports.BindingSignaler = exports.SignalBindingBehavior = exports.DebounceBindingBehavior = exports.ThrottleBindingBehavior = exports.TwoWayBindingBehavior = exports.OneWayBindingBehavior = exports.OneTimeBindingBehavior = exports.AttrBindingBehavior = exports.configure = exports.Focus = exports.Replaceable = exports.SanitizeHTMLValueConverter = exports.HTMLSanitizer = exports.Hide = exports.Show = exports.Repeat = exports.With = exports.If = exports.Compose = undefined;
+exports.viewsRequireLifecycle = exports.unwrapExpression = exports.updateOneTimeBinding = exports.isOneTime = exports.getItemsSourceExpression = exports.updateOverrideContext = exports.createFullOverrideContext = exports.NumberRepeatStrategy = exports.SetRepeatStrategy = exports.MapRepeatStrategy = exports.ArrayRepeatStrategy = exports.NullRepeatStrategy = exports.RepeatStrategyLocator = exports.AbstractRepeater = exports.UpdateTriggerBindingBehavior = exports.BindingSignaler = exports.SignalBindingBehavior = exports.SelfBindingBehavior = exports.DebounceBindingBehavior = exports.ThrottleBindingBehavior = exports.TwoWayBindingBehavior = exports.OneWayBindingBehavior = exports.OneTimeBindingBehavior = exports.AttrBindingBehavior = exports.configure = exports.Focus = exports.Replaceable = exports.SanitizeHTMLValueConverter = exports.HTMLSanitizer = exports.Hide = exports.Show = exports.Repeat = exports.With = exports.If = exports.Compose = undefined;
+
+var _aureliaPal = require('aurelia-pal');
 
 var _compose = require('./compose');
 
@@ -20484,6 +20347,8 @@ var _throttleBindingBehavior = require('./throttle-binding-behavior');
 
 var _debounceBindingBehavior = require('./debounce-binding-behavior');
 
+var _selfBindingBehavior = require('./self-binding-behavior');
+
 var _signalBindingBehavior = require('./signal-binding-behavior');
 
 var _bindingSignaler = require('./binding-signaler');
@@ -20515,7 +20380,7 @@ var _aureliaHideStyle = require('./aurelia-hide-style');
 function configure(config) {
   (0, _aureliaHideStyle.injectAureliaHideStyleAtHead)();
 
-  config.globalResources('./compose', './if', './with', './repeat', './show', './hide', './replaceable', './sanitize-html', './focus', './binding-mode-behaviors', './throttle-binding-behavior', './debounce-binding-behavior', './signal-binding-behavior', './update-trigger-binding-behavior', './attr-binding-behavior');
+  config.globalResources(_aureliaPal.PLATFORM.moduleName('./compose'), _aureliaPal.PLATFORM.moduleName('./if'), _aureliaPal.PLATFORM.moduleName('./with'), _aureliaPal.PLATFORM.moduleName('./repeat'), _aureliaPal.PLATFORM.moduleName('./show'), _aureliaPal.PLATFORM.moduleName('./hide'), _aureliaPal.PLATFORM.moduleName('./replaceable'), _aureliaPal.PLATFORM.moduleName('./sanitize-html'), _aureliaPal.PLATFORM.moduleName('./focus'), _aureliaPal.PLATFORM.moduleName('./binding-mode-behaviors'), _aureliaPal.PLATFORM.moduleName('./self-binding-behavior'), _aureliaPal.PLATFORM.moduleName('./throttle-binding-behavior'), _aureliaPal.PLATFORM.moduleName('./debounce-binding-behavior'), _aureliaPal.PLATFORM.moduleName('./signal-binding-behavior'), _aureliaPal.PLATFORM.moduleName('./update-trigger-binding-behavior'), _aureliaPal.PLATFORM.moduleName('./attr-binding-behavior'));
 
   (0, _htmlResourcePlugin.configure)(config);
 
@@ -20546,6 +20411,7 @@ exports.OneWayBindingBehavior = _bindingModeBehaviors.OneWayBindingBehavior;
 exports.TwoWayBindingBehavior = _bindingModeBehaviors.TwoWayBindingBehavior;
 exports.ThrottleBindingBehavior = _throttleBindingBehavior.ThrottleBindingBehavior;
 exports.DebounceBindingBehavior = _debounceBindingBehavior.DebounceBindingBehavior;
+exports.SelfBindingBehavior = _selfBindingBehavior.SelfBindingBehavior;
 exports.SignalBindingBehavior = _signalBindingBehavior.SignalBindingBehavior;
 exports.BindingSignaler = _bindingSignaler.BindingSignaler;
 exports.UpdateTriggerBindingBehavior = _updateTriggerBindingBehavior.UpdateTriggerBindingBehavior;
@@ -20573,7 +20439,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Compose = undefined;
 
-var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3;
+var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
@@ -20637,6 +20503,8 @@ var Compose = exports.Compose = (_dec = (0, _aureliaTemplating.customElement)('c
     _initDefineProp(this, 'view', _descriptor2, this);
 
     _initDefineProp(this, 'viewModel', _descriptor3, this);
+
+    _initDefineProp(this, 'swapOrder', _descriptor4, this);
 
     this.element = element;
     this.container = container;
@@ -20742,6 +20610,9 @@ var Compose = exports.Compose = (_dec = (0, _aureliaTemplating.customElement)('c
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'viewModel', [_aureliaTemplating.bindable], {
   enumerable: true,
   initializer: null
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'swapOrder', [_aureliaTemplating.bindable], {
+  enumerable: true,
+  initializer: null
 })), _class2)) || _class) || _class) || _class);
 
 
@@ -20754,7 +20625,8 @@ function createInstruction(composer, instruction) {
     viewSlot: composer.viewSlot,
     viewResources: composer.viewResources,
     currentController: composer.currentController,
-    host: composer.element
+    host: composer.element,
+    swapOrder: composer.swapOrder
   });
 }
 
@@ -22759,6 +22631,45 @@ var DebounceBindingBehavior = exports.DebounceBindingBehavior = function () {
   return DebounceBindingBehavior;
 }();
 });
+___scope___.file("dist/commonjs/self-binding-behavior.js", function(exports, require, module, __filename, __dirname){ 
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+
+
+function findOriginalEventTarget(event) {
+  return event.path && event.path[0] || event.deepPath && event.deepPath[0] || event.target;
+}
+
+function handleSelfEvent(event) {
+  var target = findOriginalEventTarget(event);
+  if (this.target !== target) return;
+  this.selfEventCallSource(event);
+}
+
+var SelfBindingBehavior = exports.SelfBindingBehavior = function () {
+  function SelfBindingBehavior() {
+    
+  }
+
+  SelfBindingBehavior.prototype.bind = function bind(binding, source) {
+    if (!binding.callSource || !binding.targetEvent) throw new Error('Self binding behavior only supports event.');
+    binding.selfEventCallSource = binding.callSource;
+    binding.callSource = handleSelfEvent;
+  };
+
+  SelfBindingBehavior.prototype.unbind = function unbind(binding, source) {
+    binding.callSource = binding.selfEventCallSource;
+    binding.selfEventCallSource = null;
+  };
+
+  return SelfBindingBehavior;
+}();
+});
 ___scope___.file("dist/commonjs/signal-binding-behavior.js", function(exports, require, module, __filename, __dirname){ 
 
 'use strict';
@@ -23009,6 +22920,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.configure = exports.RouteHref = exports.RouterView = exports.TemplatingRouteLoader = undefined;
 
+var _aureliaPal = require('aurelia-pal');
+
 var _aureliaRouter = require('aurelia-router');
 
 var _routeLoader = require('./route-loader');
@@ -23018,7 +22931,7 @@ var _routerView = require('./router-view');
 var _routeHref = require('./route-href');
 
 function configure(config) {
-  config.singleton(_aureliaRouter.RouteLoader, _routeLoader.TemplatingRouteLoader).singleton(_aureliaRouter.Router, _aureliaRouter.AppRouter).globalResources('./router-view', './route-href');
+  config.singleton(_aureliaRouter.RouteLoader, _routeLoader.TemplatingRouteLoader).singleton(_aureliaRouter.Router, _aureliaRouter.AppRouter).globalResources(_aureliaPal.PLATFORM.moduleName('./router-view'), _aureliaPal.PLATFORM.moduleName('./route-href'));
 
   config.container.registerAlias(_aureliaRouter.Router, _aureliaRouter.AppRouter);
 }
@@ -23049,6 +22962,8 @@ var _aureliaPath = require('aurelia-path');
 
 var _aureliaMetadata = require('aurelia-metadata');
 
+var _routerView = require('./router-view');
+
 
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -23069,12 +22984,17 @@ var TemplatingRouteLoader = exports.TemplatingRouteLoader = (_dec = (0, _aurelia
 
   TemplatingRouteLoader.prototype.loadRoute = function loadRoute(router, config) {
     var childContainer = router.container.createChild();
+
+    var viewModel = /\.html/.test(config.moduleId) ? createDynamicClass(config.moduleId) : (0, _aureliaPath.relativeToFile)(config.moduleId, _aureliaMetadata.Origin.get(router.container.viewModel.constructor).moduleId);
+
     var instruction = {
-      viewModel: (0, _aureliaPath.relativeToFile)(config.moduleId, _aureliaMetadata.Origin.get(router.container.viewModel.constructor).moduleId),
+      viewModel: viewModel,
       childContainer: childContainer,
       view: config.view || config.viewStrategy,
       router: router
     };
+
+    childContainer.registerSingleton(_routerView.RouterViewLocator);
 
     childContainer.getChildRouter = function () {
       var childRouter = void 0;
@@ -23091,6 +23011,28 @@ var TemplatingRouteLoader = exports.TemplatingRouteLoader = (_dec = (0, _aurelia
 
   return TemplatingRouteLoader;
 }(_aureliaRouter.RouteLoader)) || _class);
+
+
+function createDynamicClass(moduleId) {
+  var _dec2, _dec3, _class2;
+
+  var name = /([^\/^\?]+)\.html/i.exec(moduleId)[1];
+
+  var DynamicClass = (_dec2 = (0, _aureliaTemplating.customElement)(name), _dec3 = (0, _aureliaTemplating.useView)(moduleId), _dec2(_class2 = _dec3(_class2 = function () {
+    function DynamicClass() {
+      
+    }
+
+    DynamicClass.prototype.bind = function bind(bindingContext) {
+      this.$parent = bindingContext;
+    };
+
+    return DynamicClass;
+  }()) || _class2) || _class2);
+
+
+  return DynamicClass;
+}
 });
 ___scope___.file("dist/commonjs/router-view.js", function(exports, require, module, __filename, __dirname){ 
 
@@ -23099,7 +23041,7 @@ ___scope___.file("dist/commonjs/router-view.js", function(exports, require, modu
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RouterView = undefined;
+exports.RouterViewLocator = exports.RouterView = undefined;
 
 var _dec, _dec2, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
@@ -23124,6 +23066,8 @@ function _initDefineProp(target, property, descriptor, context) {
     value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
   });
 }
+
+
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
   var desc = {};
@@ -23157,44 +23101,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 function _initializerWarningHelper(descriptor, context) {
   throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
 }
-
-
-
-var SwapStrategies = function () {
-  function SwapStrategies() {
-    
-  }
-
-  SwapStrategies.prototype.before = function before(viewSlot, previousView, callback) {
-    var promise = Promise.resolve(callback());
-
-    if (previousView !== undefined) {
-      return promise.then(function () {
-        return viewSlot.remove(previousView, true);
-      });
-    }
-
-    return promise;
-  };
-
-  SwapStrategies.prototype.with = function _with(viewSlot, previousView, callback) {
-    var promise = Promise.resolve(callback());
-
-    if (previousView !== undefined) {
-      return Promise.all([viewSlot.remove(previousView, true), promise]);
-    }
-
-    return promise;
-  };
-
-  SwapStrategies.prototype.after = function after(viewSlot, previousView, callback) {
-    return Promise.resolve(viewSlot.removeAll(true)).then(callback);
-  };
-
-  return SwapStrategies;
-}();
-
-var swapStrategies = new SwapStrategies();
 
 var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customElement)('router-view'), _dec2 = (0, _aureliaDependencyInjection.inject)(_aureliaPal.DOM.Element, _aureliaDependencyInjection.Container, _aureliaTemplating.ViewSlot, _aureliaRouter.Router, _aureliaTemplating.ViewLocator, _aureliaTemplating.CompositionTransaction, _aureliaTemplating.CompositionEngine), _dec(_class = (0, _aureliaTemplating.noView)(_class = _dec2(_class = (_class2 = function () {
   function RouterView(element, container, viewSlot, router, viewLocator, compositionTransaction, compositionEngine) {
@@ -23243,6 +23149,8 @@ var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customEleme
     var config = component.router.currentInstruction.config;
     var viewPort = config.viewPorts ? config.viewPorts[viewPortInstruction.name] : {};
 
+    childContainer.get(RouterViewLocator)._notify(this);
+
     var layoutInstruction = {
       viewModel: viewPort.layoutViewModel || config.layoutViewModel || this.layoutViewModel,
       view: viewPort.layoutView || config.layoutView || this.layoutView,
@@ -23280,20 +23188,16 @@ var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customEleme
     var _this2 = this;
 
     var layoutInstruction = viewPortInstruction.layoutInstruction;
+    var previousView = this.view;
 
     var work = function work() {
-      var previousView = _this2.view;
-      var swapStrategy = void 0;
+      var swapStrategy = _aureliaTemplating.SwapStrategies[_this2.swapOrder] || _aureliaTemplating.SwapStrategies.after;
       var viewSlot = _this2.viewSlot;
 
-      swapStrategy = _this2.swapOrder in swapStrategies ? swapStrategies[_this2.swapOrder] : swapStrategies.after;
-
       swapStrategy(viewSlot, previousView, function () {
-        return Promise.resolve().then(function () {
-          return viewSlot.add(_this2.view);
-        }).then(function () {
-          _this2._notify();
-        });
+        return Promise.resolve(viewSlot.add(_this2.view));
+      }).then(function () {
+        _this2._notify();
       });
     };
 
@@ -23351,6 +23255,28 @@ var RouterView = exports.RouterView = (_dec = (0, _aureliaTemplating.customEleme
   enumerable: true,
   initializer: null
 })), _class2)) || _class) || _class) || _class);
+
+var RouterViewLocator = exports.RouterViewLocator = function () {
+  function RouterViewLocator() {
+    var _this3 = this;
+
+    
+
+    this.promise = new Promise(function (resolve) {
+      return _this3.resolve = resolve;
+    });
+  }
+
+  RouterViewLocator.prototype.findNearest = function findNearest() {
+    return this.promise;
+  };
+
+  RouterViewLocator.prototype._notify = function _notify(routerView) {
+    this.resolve(routerView);
+  };
+
+  return RouterViewLocator;
+}();
 });
 ___scope___.file("dist/commonjs/route-href.js", function(exports, require, module, __filename, __dirname){ 
 
@@ -24104,5 +24030,5 @@ FuseBox.import("fusebox-hot-reload").connect(4444, "")
 FuseBox.import("default/main.js");
 FuseBox.main("default/main.js");
 })
-(function(e){if(e.FuseBox)return e.FuseBox;var r="undefined"!=typeof window&&window.navigator;r&&(window.global=window),e=r&&"undefined"==typeof __fbx__dnm__?e:module.exports;var n=r?window.__fsbx__=window.__fsbx__||{}:global.$fsbx=global.$fsbx||{};r||(global.require=require);var t=n.p=n.p||{},i=n.e=n.e||{},a=function(e){var r=e.charCodeAt(0);if(r>=97&&r<=122||64===r){if(64===r){var n=e.split("/"),t=n.splice(2,n.length).join("/");return[n[0]+"/"+n[1],t||void 0]}var i=e.indexOf("/");if(i===-1)return[e];var a=e.substring(0,i),o=e.substring(i+1);return[a,o]}},o=function(e){return e.substring(0,e.lastIndexOf("/"))||"./"},f=function(){for(var e=[],r=0;r<arguments.length;r++)e[r]=arguments[r];for(var n=[],t=0,i=arguments.length;t<i;t++)n=n.concat(arguments[t].split("/"));for(var a=[],t=0,i=n.length;t<i;t++){var o=n[t];o&&"."!==o&&(".."===o?a.pop():a.push(o))}return""===n[0]&&a.unshift(""),a.join("/")||(a.length?"/":".")},u=function(e){var r=e.match(/\.(\w{1,})$/);if(r){var n=r[1];return n?e:e+".js"}return e+".js"},s=function(e){if(r){var n,t=document,i=t.getElementsByTagName("head")[0];/\.css$/.test(e)?(n=t.createElement("link"),n.rel="stylesheet",n.type="text/css",n.href=e):(n=t.createElement("script"),n.type="text/javascript",n.src=e,n.async=!0),i.insertBefore(n,i.firstChild)}},l=function(e,r){for(var n in e)e.hasOwnProperty(n)&&r(n,e[n])},c=function(e,n){var i=n.path||"./",o=n.pkg||"default",s=a(e);s&&(i="./",o=s[0],n.v&&n.v[o]&&(o=o+"@"+n.v[o]),e=s[1]),e&&126===e.charCodeAt(0)&&(e=e.slice(2,e.length),i="./");var l=t[o];if(!l){if(r)throw'Package was not found "'+o+'"';return{serverReference:require(o)}}e||(e="./"+l.s.entry);var c,v=f(i,e),d=u(v),p=l.f[d];return!p&&d.indexOf("*")>-1&&(c=d),p||c||(d=f(v,"/","index.js"),p=l.f[d],p||(d=v+".js",p=l.f[d]),p||(p=l.f[v+".jsx"]),p||(d=v+"/index.jsx",p=l.f[d])),{file:p,wildcard:c,pkgName:o,versions:l.v,filePath:v,validPath:d}},v=function(e,n){if(!r)return n(/\.(js|json)$/.test(e)?global.require(e):"");var t;t=new XMLHttpRequest,t.onreadystatechange=function(){if(4==t.readyState)if(200==t.status){var r=t.getResponseHeader("Content-Type"),i=t.responseText;/json/.test(r)?i="module.exports = "+i:/javascript/.test(r)||(i="module.exports = "+JSON.stringify(i));var a=f("./",e);g.dynamic(a,i),n(g.import(e,{}))}else console.error(e+" was not found upon request"),n(void 0)},t.open("GET",e,!0),t.send()},d=function(e,r){var n=i[e];if(n)for(var t in n){var a=n[t].apply(null,r);if(a===!1)return!1}},p=function(e,n){if(void 0===n&&(n={}),58===e.charCodeAt(4)||58===e.charCodeAt(5))return s(e);var i=c(e,n);if(i.serverReference)return i.serverReference;var a=i.file;if(i.wildcard){var f=new RegExp(i.wildcard.replace(/\*/g,"@").replace(/[.?*+^$[\]\\(){}|-]/g,"\\$&").replace(/@/g,"[a-z0-9$_-]+"),"i"),u=t[i.pkgName];if(u){var l={};for(var g in u.f)f.test(g)&&(l[g]=p(i.pkgName+"/"+g));return l}}if(!a){var m="function"==typeof n,h=d("async",[e,n]);if(h===!1)return;return v(e,function(e){if(m)return n(e)})}var x=i.validPath,_=i.pkgName;if(a.locals&&a.locals.module)return a.locals.module.exports;var w=a.locals={},y=o(x);w.exports={},w.module={exports:w.exports},w.require=function(e,r){return p(e,{pkg:_,path:y,v:i.versions})},w.require.main={filename:r?"./":global.require.main.filename,paths:r?[]:global.require.main.paths};var b=[w.module.exports,w.require,w.module,x,y,_];d("before-import",b);var j=a.fn;return j.apply(0,b),d("after-import",b),w.module.exports},g=function(){function n(){}return n.global=function(e,n){var t=r?window:global;return void 0===n?t[e]:void(t[e]=n)},n.import=function(e,r){return p(e,r)},n.on=function(e,r){i[e]=i[e]||[],i[e].push(r)},n.exists=function(e){try{var r=c(e,{});return void 0!==r.file}catch(e){return!1}},n.remove=function(e){var r=c(e,{}),n=t[r.pkgName];n&&n.f[r.validPath]&&delete n.f[r.validPath]},n.main=function(e){return this.mainFile=e,n.import(e,{})},n.expose=function(r){var n=function(n){var t=r[n],i=t.alias,a=p(t.pkg);"*"===i?l(a,function(r,n){return e[r]=n}):"object"==typeof i?l(i,function(r,n){return e[n]=a[r]}):e[i]=a};for(var t in r)n(t)},n.dynamic=function(r,n,t){var i=t&&t.pkg||"default";this.pkg(i,{},function(t){t.file(r,function(r,t,i,a,o){var f=new Function("__fbx__dnm__","exports","require","module","__filename","__dirname","__root__",n);f(!0,r,t,i,a,o,e)})})},n.flush=function(e){var r=t.default;for(var n in r.f){var i=!e||e(n);if(i){var a=r.f[n];delete a.locals}}},n.pkg=function(e,r,n){if(t[e])return n(t[e].s);var i=t[e]={},a=i.f={};i.v=r;var o=i.s={file:function(e,r){a[e]={fn:r}}};return n(o)},n.addPlugin=function(e){this.plugins.push(e)},n}();return g.packages=t,g.isBrowser=void 0!==r,g.isServer=!r,g.plugins=[],e.FuseBox=g}(this))
+(function(e){if(e.FuseBox)return e.FuseBox;var r="undefined"!=typeof window&&window.navigator;r&&(window.global=window),e=r&&"undefined"==typeof __fbx__dnm__?e:module.exports;var n=r?window.__fsbx__=window.__fsbx__||{}:global.$fsbx=global.$fsbx||{};r||(global.require=require);var t=n.p=n.p||{},i=n.e=n.e||{},a=function(e){var n=e.charCodeAt(0),t=e.charCodeAt(1);if((r||58!==t)&&(n>=97&&n<=122||64===n)){if(64===n){var i=e.split("/"),a=i.splice(2,i.length).join("/");return[i[0]+"/"+i[1],a||void 0]}var o=e.indexOf("/");if(o===-1)return[e];var f=e.substring(0,o),u=e.substring(o+1);return[f,u]}},o=function(e){return e.substring(0,e.lastIndexOf("/"))||"./"},f=function(){for(var e=[],r=0;r<arguments.length;r++)e[r]=arguments[r];for(var n=[],t=0,i=arguments.length;t<i;t++)n=n.concat(arguments[t].split("/"));for(var a=[],t=0,i=n.length;t<i;t++){var o=n[t];o&&"."!==o&&(".."===o?a.pop():a.push(o))}return""===n[0]&&a.unshift(""),a.join("/")||(a.length?"/":".")},u=function(e){var r=e.match(/\.(\w{1,})$/);if(r){var n=r[1];return n?e:e+".js"}return e+".js"},s=function(e){if(r){var n,t=document,i=t.getElementsByTagName("head")[0];/\.css$/.test(e)?(n=t.createElement("link"),n.rel="stylesheet",n.type="text/css",n.href=e):(n=t.createElement("script"),n.type="text/javascript",n.src=e,n.async=!0),i.insertBefore(n,i.firstChild)}},l=function(e,r){for(var n in e)e.hasOwnProperty(n)&&r(n,e[n])},c=function(e){return{server:require(e)}},v=function(e,n){var i=n.path||"./",o=n.pkg||"default",s=a(e);if(s&&(i="./",o=s[0],n.v&&n.v[o]&&(o=o+"@"+n.v[o]),e=s[1]),e)if(126===e.charCodeAt(0))e=e.slice(2,e.length),i="./";else if(!r&&(47===e.charCodeAt(0)||58===e.charCodeAt(1)))return c(e);var l=t[o];if(!l){if(r)throw'Package was not found "'+o+'"';return c(o+(e?"/"+e:""))}e||(e="./"+l.s.entry);var v,d=f(i,e),p=u(d),g=l.f[p];return!g&&p.indexOf("*")>-1&&(v=p),g||v||(p=f(d,"/","index.js"),g=l.f[p],g||(p=d+".js",g=l.f[p]),g||(g=l.f[d+".jsx"]),g||(p=d+"/index.jsx",g=l.f[p])),{file:g,wildcard:v,pkgName:o,versions:l.v,filePath:d,validPath:p}},d=function(e,n){if(!r)return n(/\.(js|json)$/.test(e)?global.require(e):"");var t;t=new XMLHttpRequest,t.onreadystatechange=function(){if(4==t.readyState)if(200==t.status){var r=t.getResponseHeader("Content-Type"),i=t.responseText;/json/.test(r)?i="module.exports = "+i:/javascript/.test(r)||(i="module.exports = "+JSON.stringify(i));var a=f("./",e);h.dynamic(a,i),n(h.import(e,{}))}else console.error(e+" was not found upon request"),n(void 0)},t.open("GET",e,!0),t.send()},p=function(e,r){var n=i[e];if(n)for(var t in n){var a=n[t].apply(null,r);if(a===!1)return!1}},g=function(e,n){if(void 0===n&&(n={}),58===e.charCodeAt(4)||58===e.charCodeAt(5))return s(e);var i=v(e,n);if(i.server)return i.server;var a=i.file;if(i.wildcard){var f=new RegExp(i.wildcard.replace(/\*/g,"@").replace(/[.?*+^$[\]\\(){}|-]/g,"\\$&").replace(/@/g,"[a-z0-9$_-]+"),"i"),u=t[i.pkgName];if(u){var l={};for(var c in u.f)f.test(c)&&(l[c]=g(i.pkgName+"/"+c));return l}}if(!a){var h="function"==typeof n,m=p("async",[e,n]);if(m===!1)return;return d(e,function(e){if(h)return n(e)})}var x=i.validPath,_=i.pkgName;if(a.locals&&a.locals.module)return a.locals.module.exports;var w=a.locals={},y=o(x);w.exports={},w.module={exports:w.exports},w.require=function(e,r){return g(e,{pkg:_,path:y,v:i.versions})},w.require.main={filename:r?"./":global.require.main.filename,paths:r?[]:global.require.main.paths};var b=[w.module.exports,w.require,w.module,x,y,_];p("before-import",b);var j=a.fn;return j.apply(0,b),p("after-import",b),w.module.exports},h=function(){function n(){}return n.global=function(e,n){var t=r?window:global;return void 0===n?t[e]:void(t[e]=n)},n.import=function(e,r){return g(e,r)},n.on=function(e,r){i[e]=i[e]||[],i[e].push(r)},n.exists=function(e){try{var r=v(e,{});return void 0!==r.file}catch(e){return!1}},n.remove=function(e){var r=v(e,{}),n=t[r.pkgName];n&&n.f[r.validPath]&&delete n.f[r.validPath]},n.main=function(e){return this.mainFile=e,n.import(e,{})},n.expose=function(r){var n=function(n){var t=r[n],i=t.alias,a=g(t.pkg);"*"===i?l(a,function(r,n){return e[r]=n}):"object"==typeof i?l(i,function(r,n){return e[n]=a[r]}):e[i]=a};for(var t in r)n(t)},n.dynamic=function(r,n,t){var i=t&&t.pkg||"default";this.pkg(i,{},function(t){t.file(r,function(r,t,i,a,o){var f=new Function("__fbx__dnm__","exports","require","module","__filename","__dirname","__root__",n);f(!0,r,t,i,a,o,e)})})},n.flush=function(e){var r=t.default;for(var n in r.f){var i=!e||e(n);if(i){var a=r.f[n];delete a.locals}}},n.pkg=function(e,r,n){if(t[e])return n(t[e].s);var i=t[e]={},a=i.f={};i.v=r;var o=i.s={file:function(e,r){a[e]={fn:r}}};return n(o)},n.addPlugin=function(e){this.plugins.push(e)},n}();return h.packages=t,h.isBrowser=void 0!==r,h.isServer=!r,h.plugins=[],e.FuseBox=h}(this))
 //# sourceMappingURL=bundle.js.map

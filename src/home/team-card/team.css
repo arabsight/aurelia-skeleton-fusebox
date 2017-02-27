@@ -1,0 +1,7 @@
+.info-card .mdl-card__actions {
+    display: flex;
+}
+
+.info-card a.mdl-button, .info-card .divider {
+    flex: 1;
+}
