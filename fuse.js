@@ -1,17 +1,11 @@
-const { FuseBox, RawPlugin, HTMLPlugin, BabelPlugin } = require('fusebox');
+const { FuseBox, RawPlugin, HTMLPlugin, BabelPlugin } = require('fuse-box');
 
 let fuse = FuseBox.init({
     homeDir: "./src",
     outFile: "./dist/bundle.js",
-    cache: false,
-    log: true,
-    debug: true,
-    sourceMap: {
-        bundleReference: 'bundle.js.map',
-        outFile: './dist/bundle.js.map',
-    },
+    sourcemaps: true,
     plugins: [
-        [/\.css$/, RawPlugin({ extensions: ['.css'] })],
+        RawPlugin(['.css']),
         HTMLPlugin({ useDefault: true }),
         BabelPlugin()
     ]

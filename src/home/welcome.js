@@ -3,7 +3,7 @@ import { computedFrom } from 'aurelia-framework';
 export class Welcome {
     heading = 'Aurelia On FuseBox!';
     firstName = 'John';
-    lastName = 'Doe';
+    lastName = 'Doe!';
     previousValue = this.fullName;
 
     @computedFrom('firstName', 'lastName')
@@ -13,7 +13,7 @@ export class Welcome {
 
     submit() {
         this.previousValue = this.fullName;
-        alert(`Welcome, ${this.fullName}!`);
+        alert(`Welcome!!, ${this.fullName}!`);
     }
 
     canDeactivate() {

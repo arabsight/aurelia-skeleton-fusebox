@@ -12,5 +12,8 @@ export function configure(aurelia) {
         .feature('home')
         .feature('users');
 
+    // if env is development
+    aurelia.use.feature('aurelia-fusebox-hmr');
+
     aurelia.start().then(() => aurelia.setRoot('shell/app'));
 }
