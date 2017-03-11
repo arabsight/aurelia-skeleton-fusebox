@@ -10,33 +10,17 @@ export function configure(config) {
 function hmrUpdate({ type, path, content }) {
     // js, html and css -> type is 'js'
     // if (type === 'js') {
-    //     fuseIt(path, content);
-    //     renderIt(path).then(() => {
-    //         console.log('renderIt finished');
-    //         return true;
-    //     });
+    //     FuseBox.flush();
+    //     FuseBox.dynamic(path, content);
+    //     FuseBox.import(FuseBox.mainFile);
+
+    //     if (path.endsWith('.html')) context.handleViewChange(path);
+    //     if (path.endsWith('.js'))
+    //         context.handleModuleChange(path.replace(/\.js$/, ''), {});
     // }
 
     // for now lets just reload
     window.location.reload();
 
     return true;
-}
-
-function fuseIt(path, content) {
-    FuseBox.flush();
-    FuseBox.dynamic(path, content);
-    FuseBox.import(FuseBox.mainFile)
-}
-
-function renderIt(path) {
-    if (path.endsWith('.html')) {
-        console.log('path ->', path);
-        return context.handleViewChange(path);
-    } else if (path.endsWith('.js')) {
-        console.log('path ->', path);
-        return context.handleModuleChange(path.replace(/\.js$/i, ''), {});
-    } else {
-        console.log('path ->', path);
-    }
 }

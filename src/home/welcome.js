@@ -3,7 +3,7 @@ import { computedFrom } from 'aurelia-framework';
 export class Welcome {
     heading = 'Aurelia On FuseBox!';
     firstName = 'John';
-    lastName = 'Doe!';
+    lastName = 'Doe';
     previousValue = this.fullName;
 
     @computedFrom('firstName', 'lastName')
