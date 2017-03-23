@@ -1,6 +1,7 @@
 import 'aurelia-loader-fusebox';
 import 'aurelia-bootstrapper';
-import 'material-design-lite/material.min.js';
+
+import 'material-design-lite';
 
 export function configure(aurelia) {
     aurelia.use
@@ -12,7 +13,7 @@ export function configure(aurelia) {
         .feature('home')
         .feature('users');
 
-    // if env is development
+    // TODO if env is development
     aurelia.use.feature('aurelia-fusebox-hmr');
 
     aurelia.start().then(() => aurelia.setRoot('shell/app'));

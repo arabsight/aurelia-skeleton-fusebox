@@ -1,5 +1,3 @@
-import 'material-design-lite/material.min.css';
-
 export class App {
 
     configureRouter(config, router) {

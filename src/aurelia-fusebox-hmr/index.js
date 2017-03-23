@@ -1,9 +1,9 @@
-import { HmrContext } from 'aurelia-hot-module-reload';
+// import { HmrContext } from 'aurelia-hot-module-reload';
 
-let context;
+// let context;
 
 export function configure(config) {
-    context = new HmrContext(config.aurelia.loader);
+    // context = new HmrContext(config.aurelia.loader);
     FuseBox.addPlugin({ hmrUpdate });
 }
 

@@ -1,9 +1,8 @@
-const { FuseBox, RawPlugin, HTMLPlugin, BabelPlugin } = require('fuse-box');
+const { FuseBox, RawPlugin, HTMLPlugin, BabelPlugin } = require('fsbx');
 
 let fuse = FuseBox.init({
     homeDir: "./src",
-    outFile: "./dist/bundle.js",
-    sourcemaps: true,
+    output: "./dist/$name.js",
     plugins: [
         RawPlugin(['.css']),
         HTMLPlugin({ useDefault: true }),
@@ -11,9 +10,8 @@ let fuse = FuseBox.init({
     ]
 });
 
-let appModules = '**/*.{js,html,css}';
-
 let vendorModules = [
+    'aurelia-loader-fusebox',
     'aurelia-bootstrapper',
     'aurelia-pal-browser',
     'aurelia-framework',
@@ -24,8 +22,25 @@ let vendorModules = [
     'aurelia-templating-router',
     'aurelia-fetch-client',
     'aurelia-animator-css',
+    'material-design-lite',
     'aurelia-mdl-plugin',
     'whatwg-fetch'
 ];
 
-fuse.devServer(`> main.js + ${appModules} + ${vendorModules.join(' + ')}`);
+fuse.register('material-design-lite', {
+    homeDir: 'node_modules/material-design-lite/dist',
+    main: 'material.min.js',
+    instructions: 'material.min.css',
+});
+
+fuse.bundle('vendor-bundle')
+    .instructions(`${ vendorModules.join(' + ') }`);
+
+fuse.bundle('app-bundle')
+    .watch()
+    .hmr()
+    .sourceMaps(true)
+    .instructions(`> [main.js] + [**/*.{js,html,css}]`);
+
+fuse.dev({ root: './dist' });
+fuse.run();
