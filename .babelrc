@@ -1,9 +1,6 @@
 {
     "sourceMaps": true,
-    "moduleIds": false,
     "comments": false,
-    "compact": false,
-    "code": true,
     "presets": ["env"],
     "plugins": [
         "transform-decorators-legacy",

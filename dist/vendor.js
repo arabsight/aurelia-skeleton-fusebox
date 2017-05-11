@@ -1,4 +1,5 @@
 (function(FuseBox){FuseBox.$fuse$=FuseBox;
+var __process_env__ = {"NODE_ENV":"production"};
 FuseBox.pkg("default", {}, function(___scope___){
 });
 FuseBox.pkg("aurelia-loader-fusebox", {}, function(___scope___){
@@ -1233,11 +1234,13 @@ if (typeof FEATURE_NO_ES2015 === 'undefined') {
     },
         createWithSymbols = function createWithSymbols(proto, descriptors) {
       var self = create(proto);
-      gOPN(descriptors).forEach(function (key) {
-        if (propertyIsEnumerable.call(descriptors, key)) {
-          $defineProperty(self, key, descriptors[key]);
-        }
-      });
+      if (descriptors !== null && (typeof descriptors === 'undefined' ? 'undefined' : _typeof(descriptors)) === 'object') {
+        gOPN(descriptors).forEach(function (key) {
+          if (propertyIsEnumerable.call(descriptors, key)) {
+            $defineProperty(self, key, descriptors[key]);
+          }
+        });
+      }
       return self;
     },
         copyAsNonEnumerable = function copyAsNonEnumerable(descriptor) {
@@ -2172,12 +2175,6 @@ exports._DOM = exports._FEATURE = exports._PLATFORM = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-exports._ensureFunctionName = _ensureFunctionName;
-exports._ensureClassList = _ensureClassList;
-exports._ensurePerformance = _ensurePerformance;
-exports._ensureCustomEvent = _ensureCustomEvent;
-exports._ensureElementMatches = _ensureElementMatches;
-exports._ensureHTMLTemplateElement = _ensureHTMLTemplateElement;
 exports.initialize = initialize;
 
 var _aureliaPal = require('aurelia-pal');
@@ -2198,8 +2195,8 @@ var _PLATFORM = exports._PLATFORM = {
   }
 };
 
-function _ensureFunctionName() {
-  function test() {}
+if (typeof FEATURE_NO_IE === 'undefined') {
+  var test = function test() {};
 
   if (!test.name) {
     Object.defineProperty(Function.prototype, 'name', {
@@ -2213,7 +2210,7 @@ function _ensureFunctionName() {
   }
 }
 
-function _ensureClassList() {
+if (typeof FEATURE_NO_IE === 'undefined') {
   if (!('classList' in document.createElement('_')) || document.createElementNS && !('classList' in document.createElementNS('http://www.w3.org/2000/svg', 'g'))) {
     (function () {
       var protoProp = 'prototype';
@@ -2377,7 +2374,7 @@ function _ensureClassList() {
   }
 }
 
-function _ensurePerformance() {
+if (typeof FEATURE_NO_IE === 'undefined') {
   // @license http://opensource.org/licenses/MIT
   if ('performance' in window === false) {
     window.performance = {};
@@ -2400,7 +2397,25 @@ function _ensurePerformance() {
   _PLATFORM.performance = window.performance;
 }
 
-function _ensureCustomEvent() {
+if (typeof FEATURE_NO_IE === 'undefined') {
+  (function () {
+    var con = window.console = window.console || {};
+    var nop = function nop() {};
+
+    if (!con.memory) con.memory = {};
+    ('assert,clear,count,debug,dir,dirxml,error,exception,group,' + 'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' + 'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',').forEach(function (m) {
+      if (!con[m]) con[m] = nop;
+    });
+
+    if (_typeof(con.log) === 'object') {
+      'log,info,warn,error,assert,dir,clear,profile,profileEnd'.split(',').forEach(function (method) {
+        console[method] = this.bind(console[method], console);
+      }, Function.prototype.call);
+    }
+  })();
+}
+
+if (typeof FEATURE_NO_IE === 'undefined') {
   if (!window.CustomEvent || typeof window.CustomEvent !== 'function') {
     var _CustomEvent = function _CustomEvent(event, params) {
       params = params || {
@@ -2419,90 +2434,78 @@ function _ensureCustomEvent() {
   }
 }
 
-function _ensureElementMatches() {
-  if (Element && !Element.prototype.matches) {
-    var proto = Element.prototype;
-    proto.matches = proto.matchesSelector || proto.mozMatchesSelector || proto.msMatchesSelector || proto.oMatchesSelector || proto.webkitMatchesSelector;
-  }
+if (Element && !Element.prototype.matches) {
+  var proto = Element.prototype;
+  proto.matches = proto.matchesSelector || proto.mozMatchesSelector || proto.msMatchesSelector || proto.oMatchesSelector || proto.webkitMatchesSelector;
 }
 
-var _FEATURE = exports._FEATURE = {};
-
-_FEATURE.shadowDOM = function () {
-  return !!HTMLElement.prototype.attachShadow;
-}();
-
-_FEATURE.scopedCSS = function () {
-  return 'scoped' in document.createElement('style');
-}();
-
-_FEATURE.htmlTemplateElement = function () {
-  return 'content' in document.createElement('template');
-}();
-
-_FEATURE.mutationObserver = function () {
-  return !!(window.MutationObserver || window.WebKitMutationObserver);
-}();
-
-function _ensureHTMLTemplateElement() {
-  function isSVGTemplate(el) {
-    return el.tagName === 'template' && el.namespaceURI === 'http://www.w3.org/2000/svg';
+var _FEATURE = exports._FEATURE = {
+  shadowDOM: !!HTMLElement.prototype.attachShadow,
+  scopedCSS: 'scoped' in document.createElement('style'),
+  htmlTemplateElement: 'content' in document.createElement('template'),
+  mutationObserver: !!(window.MutationObserver || window.WebKitMutationObserver),
+  ensureHTMLTemplateElement: function ensureHTMLTemplateElement(t) {
+    return t;
   }
+};
 
-  function fixSVGTemplateElement(el) {
-    var template = el.ownerDocument.createElement('template');
-    var attrs = el.attributes;
-    var length = attrs.length;
-    var attr = void 0;
+if (typeof FEATURE_NO_IE === 'undefined') {
+  (function () {
+    var isSVGTemplate = function isSVGTemplate(el) {
+      return el.tagName === 'template' && el.namespaceURI === 'http://www.w3.org/2000/svg';
+    };
 
-    el.parentNode.insertBefore(template, el);
+    var fixSVGTemplateElement = function fixSVGTemplateElement(el) {
+      var template = el.ownerDocument.createElement('template');
+      var attrs = el.attributes;
+      var length = attrs.length;
+      var attr = void 0;
 
-    while (length-- > 0) {
-      attr = attrs[length];
-      template.setAttribute(attr.name, attr.value);
-      el.removeAttribute(attr.name);
-    }
+      el.parentNode.insertBefore(template, el);
 
-    el.parentNode.removeChild(el);
-
-    return fixHTMLTemplateElement(template);
-  }
-
-  function fixHTMLTemplateElement(template) {
-    var content = template.content = document.createDocumentFragment();
-    var child = void 0;
-
-    while (child = template.firstChild) {
-      content.appendChild(child);
-    }
-
-    return template;
-  }
-
-  function fixHTMLTemplateElementRoot(template) {
-    var content = fixHTMLTemplateElement(template).content;
-    var childTemplates = content.querySelectorAll('template');
-
-    for (var i = 0, ii = childTemplates.length; i < ii; ++i) {
-      var child = childTemplates[i];
-
-      if (isSVGTemplate(child)) {
-        fixSVGTemplateElement(child);
-      } else {
-        fixHTMLTemplateElement(child);
+      while (length-- > 0) {
+        attr = attrs[length];
+        template.setAttribute(attr.name, attr.value);
+        el.removeAttribute(attr.name);
       }
-    }
 
-    return template;
-  }
+      el.parentNode.removeChild(el);
 
-  if (_FEATURE.htmlTemplateElement) {
-    _FEATURE.ensureHTMLTemplateElement = function (template) {
+      return fixHTMLTemplateElement(template);
+    };
+
+    var fixHTMLTemplateElement = function fixHTMLTemplateElement(template) {
+      var content = template.content = document.createDocumentFragment();
+      var child = void 0;
+
+      while (child = template.firstChild) {
+        content.appendChild(child);
+      }
+
       return template;
     };
-  } else {
-    _FEATURE.ensureHTMLTemplateElement = fixHTMLTemplateElementRoot;
-  }
+
+    var fixHTMLTemplateElementRoot = function fixHTMLTemplateElementRoot(template) {
+      var content = fixHTMLTemplateElement(template).content;
+      var childTemplates = content.querySelectorAll('template');
+
+      for (var i = 0, ii = childTemplates.length; i < ii; ++i) {
+        var child = childTemplates[i];
+
+        if (isSVGTemplate(child)) {
+          fixSVGTemplateElement(child);
+        } else {
+          fixHTMLTemplateElement(child);
+        }
+      }
+
+      return template;
+    };
+
+    if (!_FEATURE.htmlTemplateElement) {
+      _FEATURE.ensureHTMLTemplateElement = fixHTMLTemplateElementRoot;
+    }
+  })();
 }
 
 var shadowPoly = window.ShadowDOMPolyfill || null;
@@ -2615,39 +2618,10 @@ function initialize() {
     return;
   }
 
-  _ensureCustomEvent();
-  _ensureFunctionName();
-  _ensureHTMLTemplateElement();
-  _ensureElementMatches();
-  _ensureClassList();
-  _ensurePerformance();
-
   (0, _aureliaPal.initializePAL)(function (platform, feature, dom) {
     Object.assign(platform, _PLATFORM);
     Object.assign(feature, _FEATURE);
     Object.assign(dom, _DOM);
-
-    (function (global) {
-      global.console = global.console || {};
-      var con = global.console;
-      var prop = void 0;
-      var method = void 0;
-      var empty = {};
-      var dummy = function dummy() {};
-      var properties = 'memory'.split(',');
-      var methods = ('assert,clear,count,debug,dir,dirxml,error,exception,group,' + 'groupCollapsed,groupEnd,info,log,markTimeline,profile,profiles,profileEnd,' + 'show,table,time,timeEnd,timeline,timelineEnd,timeStamp,trace,warn').split(',');
-      while (prop = properties.pop()) {
-        if (!con[prop]) con[prop] = empty;
-      }while (method = methods.pop()) {
-        if (!con[method]) con[method] = dummy;
-      }
-    })(platform.global);
-
-    if (platform.global.console && _typeof(console.log) === 'object') {
-      ['log', 'info', 'warn', 'error', 'assert', 'dir', 'clear', 'profile', 'profileEnd'].forEach(function (method) {
-        console[method] = this.bind(console[method], console);
-      }, Function.prototype.call);
-    }
 
     Object.defineProperty(dom, 'title', {
       get: function get() {
@@ -5346,7 +5320,7 @@ var Conditional = exports.Conditional = function (_Expression5) {
   }
 
   Conditional.prototype.evaluate = function evaluate(scope, lookupFunctions) {
-    return !!this.condition.evaluate(scope) ? this.yes.evaluate(scope) : this.no.evaluate(scope);
+    return !!this.condition.evaluate(scope, lookupFunctions) ? this.yes.evaluate(scope, lookupFunctions) : this.no.evaluate(scope, lookupFunctions);
   };
 
   Conditional.prototype.accept = function accept(visitor) {
@@ -5663,16 +5637,16 @@ var Binary = exports.Binary = function (_Expression13) {
   }
 
   Binary.prototype.evaluate = function evaluate(scope, lookupFunctions) {
-    var left = this.left.evaluate(scope);
+    var left = this.left.evaluate(scope, lookupFunctions);
 
     switch (this.operation) {
       case '&&':
-        return left && this.right.evaluate(scope);
+        return left && this.right.evaluate(scope, lookupFunctions);
       case '||':
-        return left || this.right.evaluate(scope);
+        return left || this.right.evaluate(scope, lookupFunctions);
     }
 
-    var right = this.right.evaluate(scope);
+    var right = this.right.evaluate(scope, lookupFunctions);
 
     switch (this.operation) {
       case '==':
@@ -5756,7 +5730,7 @@ var PrefixNot = exports.PrefixNot = function (_Expression14) {
   }
 
   PrefixNot.prototype.evaluate = function evaluate(scope, lookupFunctions) {
-    return !this.expression.evaluate(scope);
+    return !this.expression.evaluate(scope, lookupFunctions);
   };
 
   PrefixNot.prototype.accept = function accept(visitor) {
@@ -9523,12 +9497,11 @@ function logFactory(level) {
 }
 
 function connectLoggers() {
-  Object.assign(Logger.prototype, {
-    debug: logFactory('debug'),
-    info: logFactory('info'),
-    warn: logFactory('warn'),
-    error: logFactory('error')
-  });
+  var proto = Logger.prototype;
+  proto.debug = logFactory('debug');
+  proto.info = logFactory('info');
+  proto.warn = logFactory('warn');
+  proto.error = logFactory('error');
 }
 
 function getLogger(id) {
@@ -13722,8 +13695,16 @@ var HtmlBehaviorResource = exports.HtmlBehaviorResource = function () {
   };
 
   HtmlBehaviorResource.prototype.register = function register(registry, name) {
+    var _this13 = this;
+
     if (this.attributeName !== null) {
       registry.registerAttribute(name || this.attributeName, this, this.attributeName);
+
+      if (Array.isArray(this.aliases)) {
+        this.aliases.forEach(function (alias) {
+          registry.registerAttribute(alias, _this13, _this13.attributeName);
+        });
+      }
     }
 
     if (this.elementName !== null) {
@@ -13732,7 +13713,7 @@ var HtmlBehaviorResource = exports.HtmlBehaviorResource = function () {
   };
 
   HtmlBehaviorResource.prototype.load = function load(container, target, loadContext, viewStrategy, transientView) {
-    var _this13 = this;
+    var _this14 = this;
 
     var options = void 0;
 
@@ -13745,8 +13726,8 @@ var HtmlBehaviorResource = exports.HtmlBehaviorResource = function () {
       }
 
       return viewStrategy.loadViewFactory(container.get(ViewEngine), options, loadContext, target).then(function (viewFactory) {
-        if (!transientView || !_this13.viewFactory) {
-          _this13.viewFactory = viewFactory;
+        if (!transientView || !_this14.viewFactory) {
+          _this14.viewFactory = viewFactory;
         }
 
         return viewFactory;
@@ -14264,27 +14245,27 @@ var CompositionEngine = exports.CompositionEngine = (_dec10 = (0, _aureliaDepend
   };
 
   CompositionEngine.prototype._createControllerAndSwap = function _createControllerAndSwap(context) {
-    var _this14 = this;
+    var _this15 = this;
 
     return this.createController(context).then(function (controller) {
       controller.automate(context.overrideContext, context.owningView);
 
       if (context.compositionTransactionOwnershipToken) {
         return context.compositionTransactionOwnershipToken.waitForCompositionComplete().then(function () {
-          return _this14._swap(context, controller.view);
+          return _this15._swap(context, controller.view);
         }).then(function () {
           return controller;
         });
       }
 
-      return _this14._swap(context, controller.view).then(function () {
+      return _this15._swap(context, controller.view).then(function () {
         return controller;
       });
     });
   };
 
   CompositionEngine.prototype.createController = function createController(context) {
-    var _this15 = this;
+    var _this16 = this;
 
     var childContainer = void 0;
     var viewModel = void 0;
@@ -14297,7 +14278,7 @@ var CompositionEngine = exports.CompositionEngine = (_dec10 = (0, _aureliaDepend
       viewModelResource = context.viewModelResource;
       m = viewModelResource.metadata;
 
-      var viewStrategy = _this15.viewLocator.getViewStrategy(context.view || viewModel);
+      var viewStrategy = _this16.viewLocator.getViewStrategy(context.view || viewModel);
 
       if (context.viewResources) {
         viewStrategy.makeRelativeTo(context.viewResources.viewUrl);
@@ -14337,7 +14318,7 @@ var CompositionEngine = exports.CompositionEngine = (_dec10 = (0, _aureliaDepend
   };
 
   CompositionEngine.prototype.compose = function compose(context) {
-    var _this16 = this;
+    var _this17 = this;
 
     context.childContainer = context.childContainer || context.container.createChild();
     context.view = this.viewLocator.getViewStrategy(context.view);
@@ -14364,13 +14345,13 @@ var CompositionEngine = exports.CompositionEngine = (_dec10 = (0, _aureliaDepend
 
         if (context.compositionTransactionOwnershipToken) {
           return context.compositionTransactionOwnershipToken.waitForCompositionComplete().then(function () {
-            return _this16._swap(context, result);
+            return _this17._swap(context, result);
           }).then(function () {
             return result;
           });
         }
 
-        return _this16._swap(context, result).then(function () {
+        return _this17._swap(context, result).then(function () {
           return result;
         });
       });
@@ -14441,11 +14422,12 @@ function customElement(name) {
   };
 }
 
-function customAttribute(name, defaultBindingMode) {
+function customAttribute(name, defaultBindingMode, aliases) {
   return function (target) {
     var r = _aureliaMetadata.metadata.getOrCreateOwn(_aureliaMetadata.metadata.resource, HtmlBehaviorResource, target);
     r.attributeName = validateBehaviorName(name, 'custom attribute');
     r.attributeDefaultBindingMode = defaultBindingMode;
+    r.aliases = aliases;
   };
 }
 
@@ -14632,6 +14614,10 @@ var TemplatingEngine = exports.TemplatingEngine = (_dec11 = (0, _aureliaDependen
     var view = factory.create(container, BehaviorInstruction.enhance());
 
     view.bind(instruction.bindingContext || {}, instruction.overrideContext);
+
+    view.firstChild = view.lastChild = view.fragment;
+    view.fragment = _aureliaPal.DOM.createDocumentFragment();
+    view.attached();
 
     return view;
   };
@@ -21743,20 +21729,22 @@ var CssAnimator = exports.CssAnimator = function () {
     });
   };
 
-  CssAnimator.prototype.enter = function enter(element) {
+  CssAnimator.prototype._stateAnim = function _stateAnim(element, direction, doneClass) {
     var _this4 = this;
 
+    var auClass = 'au-' + direction;
+    var auClassActive = auClass + '-active';
     return new Promise(function (resolve, reject) {
       var classList = element.classList;
 
-      _this4._triggerDOMEvent(_aureliaTemplating.animationEvent.enterBegin, element);
+      _this4._triggerDOMEvent(_aureliaTemplating.animationEvent[direction + 'Begin'], element);
 
       if (_this4.useAnimationDoneClasses) {
         classList.remove(_this4.animationEnteredClass);
         classList.remove(_this4.animationLeftClass);
       }
 
-      classList.add('au-enter');
+      classList.add(auClass);
       var prevAnimationNames = _this4._getElementAnimationNames(element);
 
       var _animStart = void 0;
@@ -21765,7 +21753,7 @@ var CssAnimator = exports.CssAnimator = function () {
         animHasStarted = true;
         _this4.isAnimating = true;
 
-        _this4._triggerDOMEvent(_aureliaTemplating.animationEvent.enterActive, element);
+        _this4._triggerDOMEvent(_aureliaTemplating.animationEvent[direction + 'Active'], element);
 
         evAnimStart.stopPropagation();
 
@@ -21780,69 +21768,83 @@ var CssAnimator = exports.CssAnimator = function () {
 
         evAnimEnd.stopPropagation();
 
-        classList.remove('au-enter-active');
-        classList.remove('au-enter');
+        classList.remove(auClassActive);
+        classList.remove(auClass);
 
         evAnimEnd.target.removeEventListener(evAnimEnd.type, _animEnd);
 
-        if (_this4.useAnimationDoneClasses && _this4.animationEnteredClass !== undefined && _this4.animationEnteredClass !== null) {
-          classList.add(_this4.animationEnteredClass);
+        if (_this4.useAnimationDoneClasses && doneClass !== undefined && doneClass !== null) {
+          classList.add(doneClass);
         }
 
         _this4.isAnimating = false;
-        _this4._triggerDOMEvent(_aureliaTemplating.animationEvent.enterDone, element);
+        _this4._triggerDOMEvent(_aureliaTemplating.animationEvent[direction + 'Done'], element);
 
         resolve(true);
       }, false);
 
       var parent = element.parentElement;
       var delay = 0;
+      var attrib = 'data-animator-pending' + direction;
 
       var cleanupAnimation = function cleanupAnimation() {
         var animationNames = _this4._getElementAnimationNames(element);
         if (!_this4._animationChangeWithValidKeyframe(animationNames, prevAnimationNames)) {
-          classList.remove('au-enter-active');
-          classList.remove('au-enter');
+          classList.remove(auClassActive);
+          classList.remove(auClass);
 
           _this4._removeMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd);
           _this4._removeMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart);
 
-          _this4._triggerDOMEvent(_aureliaTemplating.animationEvent.enterTimeout, element);
+          _this4._triggerDOMEvent(_aureliaTemplating.animationEvent[direction + 'Timeout'], element);
           resolve(false);
         }
+        parent && parent.setAttribute(attrib, +(parent.getAttribute(attrib) || 1) - 1);
       };
 
       if (parent !== null && parent !== undefined && (parent.classList.contains('au-stagger') || parent.classList.contains('au-stagger-enter'))) {
-        var elemPos = Array.prototype.indexOf.call(parent.children, element);
-        delay = _this4._getElementAnimationDelay(parent) * elemPos;
-
+        var offset = +(parent.getAttribute(attrib) || 0);
+        parent.setAttribute(attrib, offset + 1);
+        delay = _this4._getElementAnimationDelay(parent) * offset;
         _this4._triggerDOMEvent(_aureliaTemplating.animationEvent.staggerNext, element);
 
         setTimeout(function () {
-          classList.add('au-enter-active');
+          classList.add(auClassActive);
           cleanupAnimation();
         }, delay);
       } else {
-        classList.add('au-enter-active');
+        classList.add(auClassActive);
         cleanupAnimation();
       }
     });
   };
 
+  CssAnimator.prototype.enter = function enter(element) {
+    return this._stateAnim(element, 'enter', this.animationEnteredClass);
+  };
+
   CssAnimator.prototype.leave = function leave(element) {
+    return this._stateAnim(element, 'leave', this.animationLeftClass);
+  };
+
+  CssAnimator.prototype.removeClass = function removeClass(element, className) {
     var _this5 = this;
+
+    var suppressEvents = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
 
     return new Promise(function (resolve, reject) {
       var classList = element.classList;
 
-      _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.leaveBegin, element);
-
-      if (_this5.useAnimationDoneClasses) {
-        classList.remove(_this5.animationEnteredClass);
-        classList.remove(_this5.animationLeftClass);
+      if (!classList.contains(className) && !classList.contains(className + '-add')) {
+        resolve(false);
+        return;
       }
 
-      classList.add('au-leave');
+      if (suppressEvents !== true) {
+        _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassBegin, element);
+      }
+
+      classList.remove(className);
       var prevAnimationNames = _this5._getElementAnimationNames(element);
 
       var _animStart2 = void 0;
@@ -21851,7 +21853,9 @@ var CssAnimator = exports.CssAnimator = function () {
         animHasStarted = true;
         _this5.isAnimating = true;
 
-        _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.leaveActive, element);
+        if (suppressEvents !== true) {
+          _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassActive, element);
+        }
 
         evAnimStart.stopPropagation();
 
@@ -21866,56 +21870,39 @@ var CssAnimator = exports.CssAnimator = function () {
 
         evAnimEnd.stopPropagation();
 
-        classList.remove('au-leave-active');
-        classList.remove('au-leave');
+        classList.remove(className + '-remove');
 
         evAnimEnd.target.removeEventListener(evAnimEnd.type, _animEnd2);
 
-        if (_this5.useAnimationDoneClasses && _this5.animationLeftClass !== undefined && _this5.animationLeftClass !== null) {
-          classList.add(_this5.animationLeftClass);
-        }
-
         _this5.isAnimating = false;
-        _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.leaveDone, element);
+
+        if (suppressEvents !== true) {
+          _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassDone, element);
+        }
 
         resolve(true);
       }, false);
 
-      var parent = element.parentElement;
-      var delay = 0;
+      classList.add(className + '-remove');
 
-      var cleanupAnimation = function cleanupAnimation() {
-        var animationNames = _this5._getElementAnimationNames(element);
-        if (!_this5._animationChangeWithValidKeyframe(animationNames, prevAnimationNames)) {
-          classList.remove('au-leave-active');
-          classList.remove('au-leave');
+      var animationNames = _this5._getElementAnimationNames(element);
+      if (!_this5._animationChangeWithValidKeyframe(animationNames, prevAnimationNames)) {
+        classList.remove(className + '-remove');
+        classList.remove(className);
 
-          _this5._removeMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd2);
-          _this5._removeMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart2);
+        _this5._removeMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd2);
+        _this5._removeMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart2);
 
-          _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.leaveTimeout, element);
-          resolve(false);
+        if (suppressEvents !== true) {
+          _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassTimeout, element);
         }
-      };
 
-      if (parent !== null && parent !== undefined && (parent.classList.contains('au-stagger') || parent.classList.contains('au-stagger-leave'))) {
-        var elemPos = Array.prototype.indexOf.call(parent.children, element);
-        delay = _this5._getElementAnimationDelay(parent) * elemPos;
-
-        _this5._triggerDOMEvent(_aureliaTemplating.animationEvent.staggerNext, element);
-
-        setTimeout(function () {
-          classList.add('au-leave-active');
-          cleanupAnimation();
-        }, delay);
-      } else {
-        classList.add('au-leave-active');
-        cleanupAnimation();
+        resolve(false);
       }
     });
   };
 
-  CssAnimator.prototype.removeClass = function removeClass(element, className) {
+  CssAnimator.prototype.addClass = function addClass(element, className) {
     var _this6 = this;
 
     var suppressEvents = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
@@ -21923,17 +21910,9 @@ var CssAnimator = exports.CssAnimator = function () {
     return new Promise(function (resolve, reject) {
       var classList = element.classList;
 
-      if (!classList.contains(className) && !classList.contains(className + '-add')) {
-        resolve(false);
-        return;
-      }
-
       if (suppressEvents !== true) {
-        _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassBegin, element);
+        _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassBegin, element);
       }
-
-      classList.remove(className);
-      var prevAnimationNames = _this6._getElementAnimationNames(element);
 
       var _animStart3 = void 0;
       var animHasStarted = false;
@@ -21942,7 +21921,7 @@ var CssAnimator = exports.CssAnimator = function () {
         _this6.isAnimating = true;
 
         if (suppressEvents !== true) {
-          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassActive, element);
+          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassActive, element);
         }
 
         evAnimStart.stopPropagation();
@@ -21958,102 +21937,35 @@ var CssAnimator = exports.CssAnimator = function () {
 
         evAnimEnd.stopPropagation();
 
-        classList.remove(className + '-remove');
+        classList.add(className);
+
+        classList.remove(className + '-add');
 
         evAnimEnd.target.removeEventListener(evAnimEnd.type, _animEnd3);
 
         _this6.isAnimating = false;
 
         if (suppressEvents !== true) {
-          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassDone, element);
+          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassDone, element);
         }
 
         resolve(true);
       }, false);
 
-      classList.add(className + '-remove');
+      var prevAnimationNames = _this6._getElementAnimationNames(element);
+
+      classList.add(className + '-add');
 
       var animationNames = _this6._getElementAnimationNames(element);
       if (!_this6._animationChangeWithValidKeyframe(animationNames, prevAnimationNames)) {
-        classList.remove(className + '-remove');
-        classList.remove(className);
+        classList.remove(className + '-add');
+        classList.add(className);
 
         _this6._removeMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd3);
         _this6._removeMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart3);
 
         if (suppressEvents !== true) {
-          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.removeClassTimeout, element);
-        }
-
-        resolve(false);
-      }
-    });
-  };
-
-  CssAnimator.prototype.addClass = function addClass(element, className) {
-    var _this7 = this;
-
-    var suppressEvents = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-
-    return new Promise(function (resolve, reject) {
-      var classList = element.classList;
-
-      if (suppressEvents !== true) {
-        _this7._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassBegin, element);
-      }
-
-      var _animStart4 = void 0;
-      var animHasStarted = false;
-      _this7._addMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart4 = function animStart(evAnimStart) {
-        animHasStarted = true;
-        _this7.isAnimating = true;
-
-        if (suppressEvents !== true) {
-          _this7._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassActive, element);
-        }
-
-        evAnimStart.stopPropagation();
-
-        evAnimStart.target.removeEventListener(evAnimStart.type, _animStart4);
-      }, false);
-
-      var _animEnd4 = void 0;
-      _this7._addMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd4 = function animEnd(evAnimEnd) {
-        if (!animHasStarted) {
-          return;
-        }
-
-        evAnimEnd.stopPropagation();
-
-        classList.add(className);
-
-        classList.remove(className + '-add');
-
-        evAnimEnd.target.removeEventListener(evAnimEnd.type, _animEnd4);
-
-        _this7.isAnimating = false;
-
-        if (suppressEvents !== true) {
-          _this7._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassDone, element);
-        }
-
-        resolve(true);
-      }, false);
-
-      var prevAnimationNames = _this7._getElementAnimationNames(element);
-
-      classList.add(className + '-add');
-
-      var animationNames = _this7._getElementAnimationNames(element);
-      if (!_this7._animationChangeWithValidKeyframe(animationNames, prevAnimationNames)) {
-        classList.remove(className + '-add');
-        classList.add(className);
-
-        _this7._removeMultipleEventListener(element, 'webkitAnimationEnd animationend', _animEnd4);
-        _this7._removeMultipleEventListener(element, 'webkitAnimationStart animationstart', _animStart4);
-
-        if (suppressEvents !== true) {
-          _this7._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassTimeout, element);
+          _this6._triggerDOMEvent(_aureliaTemplating.animationEvent.addClassTimeout, element);
         }
 
         resolve(false);
@@ -22724,4 +22636,4 @@ ___scope___.file("fetch.js", function(exports, require, module, __filename, __di
 return ___scope___.entry = "fetch.js";
 });
 })
-(function(e){function r(e){var r=e.charCodeAt(0),n=e.charCodeAt(1);if((d||58!==n)&&(r>=97&&r<=122||64===r)){if(64===r){var t=e.split("/"),i=t.splice(2,t.length).join("/");return[t[0]+"/"+t[1],i||void 0]}var o=e.indexOf("/");if(o===-1)return[e];var a=e.substring(0,o),f=e.substring(o+1);return[a,f]}}function n(e){return e.substring(0,e.lastIndexOf("/"))||"./"}function t(){for(var e=[],r=0;r<arguments.length;r++)e[r]=arguments[r];for(var n=[],t=0,i=arguments.length;t<i;t++)n=n.concat(arguments[t].split("/"));for(var o=[],t=0,i=n.length;t<i;t++){var a=n[t];a&&"."!==a&&(".."===a?o.pop():o.push(a))}return""===n[0]&&o.unshift(""),o.join("/")||(o.length?"/":".")}function i(e){var r=e.match(/\.(\w{1,})$/);return r&&r[1]?e:e+".js"}function o(e){if(d){var r,n=document,t=n.getElementsByTagName("head")[0];/\.css$/.test(e)?(r=n.createElement("link"),r.rel="stylesheet",r.type="text/css",r.href=e):(r=n.createElement("script"),r.type="text/javascript",r.src=e,r.async=!0),t.insertBefore(r,t.firstChild)}}function a(e,r){for(var n in e)e.hasOwnProperty(n)&&r(n,e[n])}function f(e){return{server:require(e)}}function u(e,n){var o=n.path||"./",a=n.pkg||"default",u=r(e);if(u&&(o="./",a=u[0],n.v&&n.v[a]&&(a=a+"@"+n.v[a]),e=u[1]),e)if(126===e.charCodeAt(0))e=e.slice(2,e.length),o="./";else if(!d&&(47===e.charCodeAt(0)||58===e.charCodeAt(1)))return f(e);var s=h[a];if(!s){if(d)throw"Package not found "+a;return f(a+(e?"/"+e:""))}e=e?e:"./"+s.s.entry;var l,c=t(o,e),v=i(c),p=s.f[v];return!p&&v.indexOf("*")>-1&&(l=v),p||l||(v=t(c,"/","index.js"),p=s.f[v],p||(v=c+".js",p=s.f[v]),p||(p=s.f[c+".jsx"]),p||(v=c+"/index.jsx",p=s.f[v])),{file:p,wildcard:l,pkgName:a,versions:s.v,filePath:c,validPath:v}}function s(e,r){if(!d)return r(/\.(js|json)$/.test(e)?v.require(e):"");var n=new XMLHttpRequest;n.onreadystatechange=function(){if(4==n.readyState)if(200==n.status){var i=n.getResponseHeader("Content-Type"),o=n.responseText;/json/.test(i)?o="module.exports = "+o:/javascript/.test(i)||(o="module.exports = "+JSON.stringify(o));var a=t("./",e);g.dynamic(a,o),r(g.import(e,{}))}else console.error(e,"not found on request"),r(void 0)},n.open("GET",e,!0),n.send()}function l(e,r){var n=m[e];if(n)for(var t in n){var i=n[t].apply(null,r);if(i===!1)return!1}}function c(e,r){if(void 0===r&&(r={}),58===e.charCodeAt(4)||58===e.charCodeAt(5))return o(e);var t=u(e,r);if(t.server)return t.server;var i=t.file;if(t.wildcard){var a=new RegExp(t.wildcard.replace(/\*/g,"@").replace(/[.?*+^$[\]\\(){}|-]/g,"\\$&").replace(/@@/g,".*").replace(/@/g,"[a-z0-9$_-]+"),"i"),f=h[t.pkgName];if(f){var p={};for(var m in f.f)a.test(m)&&(p[m]=c(t.pkgName+"/"+m));return p}}if(!i){var g="function"==typeof r,x=l("async",[e,r]);if(x===!1)return;return s(e,function(e){return g?r(e):null})}var _=t.pkgName;if(i.locals&&i.locals.module)return i.locals.module.exports;var w=i.locals={},y=n(t.validPath);w.exports={},w.module={exports:w.exports},w.require=function(e,r){return c(e,{pkg:_,path:y,v:t.versions})},w.require.main={filename:d?"./":v.require.main.filename,paths:d?[]:v.require.main.paths};var b=[w.module.exports,w.require,w.module,t.validPath,y,_];return l("before-import",b),i.fn.apply(0,b),l("after-import",b),w.module.exports}if(e.FuseBox)return e.FuseBox;var d="undefined"!=typeof window&&window.navigator,v=d?window:global;d&&(v.global=window),e=d&&"undefined"==typeof __fbx__dnm__?e:module.exports;var p=d?window.__fsbx__=window.__fsbx__||{}:v.$fsbx=v.$fsbx||{};d||(v.require=require);var h=p.p=p.p||{},m=p.e=p.e||{},g=function(){function r(){}return r.global=function(e,r){return void 0===r?v[e]:void(v[e]=r)},r.import=function(e,r){return c(e,r)},r.on=function(e,r){m[e]=m[e]||[],m[e].push(r)},r.exists=function(e){try{var r=u(e,{});return void 0!==r.file}catch(e){return!1}},r.remove=function(e){var r=u(e,{}),n=h[r.pkgName];n&&n.f[r.validPath]&&delete n.f[r.validPath]},r.main=function(e){return this.mainFile=e,r.import(e,{})},r.expose=function(r){var n=function(n){var t=r[n].alias,i=c(r[n].pkg);"*"===t?a(i,function(r,n){return e[r]=n}):"object"==typeof t?a(t,function(r,n){return e[n]=i[r]}):e[t]=i};for(var t in r)n(t)},r.dynamic=function(r,n,t){this.pkg(t&&t.pkg||"default",{},function(t){t.file(r,function(r,t,i,o,a){var f=new Function("__fbx__dnm__","exports","require","module","__filename","__dirname","__root__",n);f(!0,r,t,i,o,a,e)})})},r.flush=function(e){var r=h.default;for(var n in r.f)e&&!e(n)||delete r.f[n].locals},r.pkg=function(e,r,n){if(h[e])return n(h[e].s);var t=h[e]={};return t.f={},t.v=r,t.s={file:function(e,r){return t.f[e]={fn:r}}},n(t.s)},r.addPlugin=function(e){this.plugins.push(e)},r}();return g.packages=h,g.isBrowser=void 0!==d,g.isServer=!d,g.plugins=[],e.FuseBox=g}(this))
+(function(e){function r(e){var r=e.charCodeAt(0),n=e.charCodeAt(1);if((d||58!==n)&&(r>=97&&r<=122||64===r)){if(64===r){var t=e.split("/"),i=t.splice(2,t.length).join("/");return[t[0]+"/"+t[1],i||void 0]}var o=e.indexOf("/");if(o===-1)return[e];var a=e.substring(0,o),u=e.substring(o+1);return[a,u]}}function n(e){return e.substring(0,e.lastIndexOf("/"))||"./"}function t(){for(var e=[],r=0;r<arguments.length;r++)e[r]=arguments[r];for(var n=[],t=0,i=arguments.length;t<i;t++)n=n.concat(arguments[t].split("/"));for(var o=[],t=0,i=n.length;t<i;t++){var a=n[t];a&&"."!==a&&(".."===a?o.pop():o.push(a))}return""===n[0]&&o.unshift(""),o.join("/")||(o.length?"/":".")}function i(e){var r=e.match(/\.(\w{1,})$/);return r&&r[1]?e:e+".js"}function o(e){if(d){var r,n=document,t=n.getElementsByTagName("head")[0];/\.css$/.test(e)?(r=n.createElement("link"),r.rel="stylesheet",r.type="text/css",r.href=e):(r=n.createElement("script"),r.type="text/javascript",r.src=e,r.async=!0),t.insertBefore(r,t.firstChild)}}function a(e,r){for(var n in e)e.hasOwnProperty(n)&&r(n,e[n])}function u(e){return{server:require(e)}}function f(e,n){var o=n.path||"./",a=n.pkg||"default",f=r(e);if(f&&(o="./",a=f[0],n.v&&n.v[a]&&(a=a+"@"+n.v[a]),e=f[1]),e)if(126===e.charCodeAt(0))e=e.slice(2,e.length),o="./";else if(!d&&(47===e.charCodeAt(0)||58===e.charCodeAt(1)))return u(e);var s=h[a];if(!s){if(d&&"electron"!==m.target)throw"Package not found "+a;return u(a+(e?"/"+e:""))}e=e?e:"./"+s.s.entry;var l,c=t(o,e),p=i(c),v=s.f[p];return!v&&p.indexOf("*")>-1&&(l=p),v||l||(p=t(c,"/","index.js"),v=s.f[p],v||(p=c+".js",v=s.f[p]),v||(v=s.f[c+".jsx"]),v||(p=c+"/index.jsx",v=s.f[p])),{file:v,wildcard:l,pkgName:a,versions:s.v,filePath:c,validPath:p}}function s(e,r){if(!d)return r(/\.(js|json)$/.test(e)?p.require(e):"");var n=new XMLHttpRequest;n.onreadystatechange=function(){if(4==n.readyState)if(200==n.status){var i=n.getResponseHeader("Content-Type"),o=n.responseText;/json/.test(i)?o="module.exports = "+o:/javascript/.test(i)||(o="module.exports = "+JSON.stringify(o));var a=t("./",e);m.dynamic(a,o),r(m.import(e,{}))}else console.error(e,"not found on request"),r(void 0)},n.open("GET",e,!0),n.send()}function l(e,r){var n=g[e];if(n)for(var t in n){var i=n[t].apply(null,r);if(i===!1)return!1}}function c(e,r){if(void 0===r&&(r={}),58===e.charCodeAt(4)||58===e.charCodeAt(5))return o(e);var t=f(e,r);if(t.server)return t.server;var i=t.file;if(t.wildcard){var a=new RegExp(t.wildcard.replace(/\*/g,"@").replace(/[.?*+^$[\]\\(){}|-]/g,"\\$&").replace(/@@/g,".*").replace(/@/g,"[a-z0-9$_-]+"),"i"),u=h[t.pkgName];if(u){var v={};for(var g in u.f)a.test(g)&&(v[g]=c(t.pkgName+"/"+g));return v}}if(!i){var m="function"==typeof r,x=l("async",[e,r]);if(x===!1)return;return s(e,function(e){return m?r(e):null})}var _=t.pkgName;if(i.locals&&i.locals.module)return i.locals.module.exports;var w=i.locals={},y=n(t.validPath);w.exports={},w.module={exports:w.exports},w.require=function(e,r){return c(e,{pkg:_,path:y,v:t.versions})},w.require.main={filename:d?"./":p.require.main.filename,paths:d?[]:p.require.main.paths};var b=[w.module.exports,w.require,w.module,t.validPath,y,_];return l("before-import",b),i.fn.apply(0,b),l("after-import",b),w.module.exports}if(e.FuseBox)return e.FuseBox;var d="undefined"!=typeof window&&window.navigator,p=d?window:global;d&&(p.global=window),e=d&&"undefined"==typeof __fbx__dnm__?e:module.exports;var v=d?window.__fsbx__=window.__fsbx__||{}:p.$fsbx=p.$fsbx||{};d||(p.require=require);var h=v.p=v.p||{},g=v.e=v.e||{},m=function(){function r(){}return r.global=function(e,r){return void 0===r?p[e]:void(p[e]=r)},r.import=function(e,r){return c(e,r)},r.on=function(e,r){g[e]=g[e]||[],g[e].push(r)},r.exists=function(e){try{var r=f(e,{});return void 0!==r.file}catch(e){return!1}},r.remove=function(e){var r=f(e,{}),n=h[r.pkgName];n&&n.f[r.validPath]&&delete n.f[r.validPath]},r.main=function(e){return this.mainFile=e,r.import(e,{})},r.expose=function(r){var n=function(n){var t=r[n].alias,i=c(r[n].pkg);"*"===t?a(i,function(r,n){return e[r]=n}):"object"==typeof t?a(t,function(r,n){return e[n]=i[r]}):e[t]=i};for(var t in r)n(t)},r.dynamic=function(r,n,t){this.pkg(t&&t.pkg||"default",{},function(t){t.file(r,function(r,t,i,o,a){var u=new Function("__fbx__dnm__","exports","require","module","__filename","__dirname","__root__",n);u(!0,r,t,i,o,a,e)})})},r.flush=function(e){var r=h.default;for(var n in r.f)e&&!e(n)||delete r.f[n].locals},r.pkg=function(e,r,n){if(h[e])return n(h[e].s);var t=h[e]={};return t.f={},t.v=r,t.s={file:function(e,r){return t.f[e]={fn:r}}},n(t.s)},r.addPlugin=function(e){this.plugins.push(e)},r}();return m.packages=h,m.isBrowser=d,m.isServer=!d,m.plugins=[],d||(p.FuseBox=m),e.FuseBox=m}(this))

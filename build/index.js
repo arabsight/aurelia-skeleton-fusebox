@@ -31,10 +31,10 @@ Sparky.task('dev', () => {
         homeDir: config.paths.src,
         output: `${ config.paths.dist }/$name.js`,
         plugins: [
-            // EnvPlugin({ NODE_ENV: 'development' }),
+            EnvPlugin({ NODE_ENV: 'development' }),
             RawPlugin(['.css']),
             HTMLPlugin({ useDefault: true }),
-            BabelPlugin(),
+            BabelPlugin()
         ]
     });
 
@@ -62,7 +62,7 @@ Sparky.task('prod', () => {
         homeDir: config.paths.src,
         output: `${ config.paths.dist }/$name.js`,
         plugins: [
-            // EnvPlugin({ NODE_ENV: 'production' }),
+            EnvPlugin({ NODE_ENV: 'production' }),
             RawPlugin(['.css']),
             HTMLPlugin({ useDefault: true }),
             BabelPlugin(),

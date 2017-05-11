@@ -1,7 +1,8 @@
 (function(FuseBox){FuseBox.$fuse$=FuseBox;
+var __process_env__ = {"NODE_ENV":"production"};
 FuseBox.pkg("default", {}, function(___scope___){
 ___scope___.file("main.js", function(exports, require, module, __filename, __dirname){
-
+/* fuse:injection: */ var process = require("process");
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -18,7 +19,9 @@ require('material-design-lite');
 function configure(aurelia) {
     aurelia.use.standardConfiguration().developmentLogging().plugin('aurelia-animator-css').plugin('aurelia-mdl-plugin').feature('shared').feature('home').feature('users');
 
-    aurelia.use.feature('aurelia-fusebox-hmr');
+    if (process.env.NODE_ENV === 'development') {
+        aurelia.use.feature('aurelia-fusebox-hmr');
+    }
 
     aurelia.start().then(function () {
         return aurelia.setRoot('shell/app');
@@ -223,7 +226,7 @@ module.exports = ".spacer {\n    margin: 25px 0;\n}\n\n.welcome-card .mdl-card__
 });
 ___scope___.file("home/welcome.html", function(exports, require, module, __filename, __dirname){
 
-module.exports.default =  "<template>\n    <require from=\"./welcome.css\"></require>\n    <require from=\"./team-card/team\"></require>\n\n    <div class=\"spacer\"></div>\n\n    <section class=\"container mdl-grid au-animate\">\n        <div class=\"welcome-card mdl-card mdl-cell mdl-shadow--6dp\">\n            <div class=\"mdl-card__title mdl-card--border\">\n                <h2 class=\"mdl-card__title-text\">${heading}</h2>\n            </div>\n\n            <div class=\"mdl-card__supporting-text\">\n                <form role=\"form\">\n\n                    <div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\">\n                        <input class=\"mdl-textfield__input\" type=\"text\" id=\"fn\" value.bind=\"firstName\">\n                        <label class=\"mdl-textfield__label\" for=\"fn\">First_Name</label>\n                    </div>\n\n                    <div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\">\n                        <input class=\"mdl-textfield__input\" type=\"text\" id=\"ln\" value.bind=\"lastName\">\n                        <label class=\"mdl-textfield__label\" for=\"ln\">Last Name</label>\n                    </div>\n\n                    <p class=\"help-block\"><label>Full Name:</label> ${fullName | upper}</p>\n                </form>\n            </div>\n\n            <div class=\"divider\"></div>\n\n            <div class=\"mdl-card__actions mdl-card--border\">\n                <button class=\"mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent\" click.delegate=\"submit()\">\n                    <i class=\"material-icons\">send</i>\n                    Submit\n                </button>\n            </div>\n        </div>\n\n        <team-card org.one-time=\"'aurelia'\" title.one-time=\"'Aurelia Team'\"></team-card>\n        <!--<team-card org.one-time=\"'fuse-box'\"></team-card>-->\n\n    </section>\n</template>\n"
+module.exports.default =  "<template>\n    <require from=\"./welcome.css\"></require>\n    <require from=\"./team-card/team\"></require>\n\n    <div class=\"spacer\"></div>\n\n    <section class=\"container mdl-grid au-animate\">\n        <div class=\"welcome-card mdl-card mdl-cell mdl-shadow--6dp\">\n            <div class=\"mdl-card__title mdl-card--border\">\n                <h2 class=\"mdl-card__title-text\">${heading}</h2>\n            </div>\n\n            <div class=\"mdl-card__supporting-text\">\n                <form role=\"form\">\n\n                    <div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\">\n                        <input class=\"mdl-textfield__input\" type=\"text\" id=\"fn\" value.bind=\"firstName\">\n                        <label class=\"mdl-textfield__label\" for=\"fn\">First Name</label>\n                    </div>\n\n                    <div class=\"mdl-textfield mdl-js-textfield mdl-textfield--floating-label\">\n                        <input class=\"mdl-textfield__input\" type=\"text\" id=\"ln\" value.bind=\"lastName\">\n                        <label class=\"mdl-textfield__label\" for=\"ln\">Last Name</label>\n                    </div>\n\n                    <p class=\"help-block\"><label>Full Name:</label> ${fullName | upper}</p>\n                </form>\n            </div>\n\n            <div class=\"divider\"></div>\n\n            <div class=\"mdl-card__actions mdl-card--border\">\n                <button class=\"mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent\" click.delegate=\"submit()\">\n                    <i class=\"material-icons\">send</i>\n                    Submit\n                </button>\n            </div>\n        </div>\n\n        <team-card org.one-time=\"'aurelia'\" title.one-time=\"'Aurelia Team'\"></team-card>\n        <!--<team-card org.one-time=\"'fuse-box'\"></team-card>-->\n\n    </section>\n</template>\n"
 });
 ___scope___.file("home/welcome.js", function(exports, require, module, __filename, __dirname){
 
@@ -762,10 +765,10 @@ var Users = exports.Users = (_dec = (0, _aureliaFramework.inject)(_data.DataServ
 FuseBox.pkg("fusebox-hot-reload", {}, function(___scope___){
 ___scope___.file("index.js", function(exports, require, module, __filename, __dirname){
 
+"use strict";
 /**
  * @module listens to `source-changed` socket events and actions hot reload
  */
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Client = require('fusebox-websocket').SocketClient;
 exports.connect = function (port, uri) {

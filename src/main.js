@@ -12,7 +12,9 @@ export function configure(aurelia) {
         .feature('home')
         .feature('users');
 
-    aurelia.use.feature('aurelia-fusebox-hmr');
+    if (process.env.NODE_ENV === 'development') {
+        aurelia.use.feature('aurelia-fusebox-hmr');
+    }
 
     aurelia.start().then(() => aurelia.setRoot('shell/app'));
 }
