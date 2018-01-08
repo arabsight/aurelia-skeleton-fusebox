@@ -1,8 +1,10 @@
+import { PLATFORM } from 'aurelia-pal';
+
 export function configure(config) {
     config.globalResources([
-        './header/au-header',
-        './drawer/au-drawer',
-        './footer/au-footer',
-        './limit.vc'
+        PLATFORM.moduleName('./header/au-header'),
+        PLATFORM.moduleName('./drawer/au-drawer'),
+        PLATFORM.moduleName('./footer/au-footer'),
+        PLATFORM.moduleName('./limit.vc'),
     ]);
 }
