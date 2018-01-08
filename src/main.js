@@ -5,7 +5,6 @@ import 'material-design-lite';
 export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()
-        .developmentLogging()
         .plugin('aurelia-animator-css')
         .plugin('aurelia-mdl-plugin')
         .feature('shared')
@@ -13,7 +12,7 @@ export function configure(aurelia) {
         .feature('users');
 
     if (process.env.NODE_ENV === 'development') {
-        aurelia.use.feature('aurelia-fusebox-hmr');
+        aurelia.use.developmentLogging();
     }
 
     aurelia.start().then(() => aurelia.setRoot('shell/app'));

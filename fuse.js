@@ -1,5 +1,4 @@
 const {
-    Sparky,
     FuseBox,
     EnvPlugin,
     RawPlugin,
@@ -8,8 +7,7 @@ const {
     UglifyJSPlugin,
     WebIndexPlugin
 } = require('fuse-box');
-
-let production = process.env.NODE_ENV === 'production';
+const { src, task, context } = require('fuse-box/sparky');
 
 let vendorModules = [
     'aurelia-loader-fusebox',
@@ -28,47 +26,57 @@ let vendorModules = [
     'whatwg-fetch'
 ];
 
-Sparky.task('clean', () => Sparky.src('dist/*').clean('dist'));
+context(class {
+    constructor() {
+        this.production = process.env.NODE_ENV === 'production';
+    }
 
-Sparky.task('build', () => {
-    const fuse = FuseBox.init({
-        homeDir: './src',
-        output: './dist/$name.js',
-        hash: production,
-        cache: !production,
-        plugins: [
-            EnvPlugin({ NODE_ENV: production ? 'production' : 'development' }),
-            RawPlugin(['.css']),
-            HTMLPlugin({ useDefault: true }),
-            BabelPlugin(),
-            production && UglifyJSPlugin(),
-            WebIndexPlugin({ template: './index.html' })
-        ]
-    });
+    config() {
+        const fuse = FuseBox.init({
+            homeDir: './src',
+            output: './dist/$name.js',
+            hash: this.production,
+            cache: !this.production,
+            plugins: [
+                EnvPlugin({ NODE_ENV: this.production ? 'production' : 'development' }),
+                RawPlugin(['.css']),
+                HTMLPlugin({ useDefault: true }),
+                BabelPlugin(),
+                this.production && UglifyJSPlugin(),
+                WebIndexPlugin({ template: './index.html' })
+            ]
+        });
 
-    fuse.register('material-design-lite', {
-        homeDir: './node_modules/material-design-lite/dist',
-        main: 'material.min.js',
-        instructions: 'material.min.css',
-    });
+        fuse.register('material-design-lite', {
+            homeDir: './node_modules/material-design-lite/dist',
+            main: 'material.min.js',
+            instructions: 'material.min.css',
+        });
+
+        return fuse;
+    }
+});
+
+task('build', async ctx => {
+    const fuse = ctx.config();
 
     const vendor = fuse.bundle('vendor')
-        .instructions(`${ vendorModules.join(' + ') }`);
+        .instructions(`${vendorModules.join(' + ')}`);
 
     const app = fuse.bundle('app')
         .instructions(`!> [main.js] + [**/*.{js,html,css}]`);
 
-    if (!production) {
-        app.watch().hmr().sourceMaps(true);
+    if (!ctx.production) {
+        app.sourceMaps(true).hmr({ reload: true }).watch();
     }
 
-    if (!production) { fuse.dev({ root: './dist' }); }
+    if (!ctx.production) { fuse.dev({ root: './dist' }); }
 
-    return fuse.run();
+    await fuse.run();
 });
 
-Sparky.task('copy', () => {
-    return Sparky.src('./favicon.ico').dest('./dist');
-});
+task('clean', async () => await src('dist/*').clean('dist').exec());
 
-Sparky.task('default', ['clean', 'copy', 'build'], () => {});
+task('copy', async () => await src('./favicon.ico').dest('./dist').exec());
+
+task('default', ['clean', 'copy', 'build']);

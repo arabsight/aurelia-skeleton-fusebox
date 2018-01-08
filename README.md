@@ -8,8 +8,30 @@ npm i
 
 For development (dev server, watch & reload):
 
-```bash npm start ``` or ```bash npm run dev ``` or ```bash yarn dev ```
+```bash 
+npm start 
+``` 
+
+or
+
+```bash 
+npm run dev 
+``` 
+
+or 
+
+```bash 
+yarn dev 
+```
 
 For production:
 
-```bash npm run prod ``` or ```bash yarn prod ```
+```bash 
+npm run prod 
+``` 
+
+or 
+
+```bash 
+yarn prod 
+```
